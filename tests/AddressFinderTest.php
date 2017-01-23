@@ -63,6 +63,16 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public function testGivenAnExcludedAddressItIsIgnored() {
+		$finder = new AddressFinder( [
+			new Address( 'Irrweg 7', '12345', 'Berlin')
+		] );
+		$this->assertEquals(
+			new Address( 'Im Graben 6', '10203', 'Berlin'),
+			$finder->findAddress( $this->loadFixture( 'multiple_addresses' ) )
+		);
+	}
+
 	private function loadFixture( string $fixtureName ): string {
 		return file_get_contents( __DIR__ . '/data/' . $fixtureName . '.txt' );
 	}

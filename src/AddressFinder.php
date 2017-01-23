@@ -14,15 +14,28 @@ class AddressFinder {
 
 	const POSTCODE_LENGTH = 5;
 
+	private $excludedAddresses;
+
+	/**
+	 * @param Address[] $excludedAddresses
+	 */
+	public function __construct( array $excludedAddresses = [] ) {
+		$this->excludedAddresses = $excludedAddresses;
+	}
+
 	public function findAddress( string $text ): ?Address {
 		if ( !preg_match_all( '/\d{' . self::POSTCODE_LENGTH . '}/', $text, $matches, PREG_OFFSET_CAPTURE ) ) {
 			return null;
 		}
 		foreach( $matches[0] as $match ) {
 			$address = $this->extractAddress( $text, $match[1] );
-			if ( $address->isValid() ) {
-				return $address;
+			if ( !$address->isValid() ) {
+				continue;
 			}
+			if ( in_array( $address, $this->excludedAddresses ) ) {
+				continue;
+			}
+			return $address;
 		}
 		return null;
 	}
