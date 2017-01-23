@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace WMDE\OtrsExtractAddress\Test;
 
 use WMDE\OtrsExtractAddress\Address;
+use WMDE\OtrsExtractAddress\AddressFilter;
 use WMDE\OtrsExtractAddress\AddressFinder;
 
 class AddressFinderTest extends \PHPUnit_Framework_TestCase {
@@ -15,7 +16,7 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	private $addressFinder;
 
 	public function setUp() {
-		$this->addressFinder = new AddressFinder();
+		$this->addressFinder = new AddressFinder( new AddressFilter() );
 	}
 
 	public function testGivenAnEmptyStringItReturnsNull() {
@@ -64,9 +65,9 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGivenAnExcludedAddressItIsIgnored() {
-		$finder = new AddressFinder( [
+		$finder = new AddressFinder( new AddressFilter([
 			new Address( 'Irrweg 7', '12345', 'Berlin')
-		] );
+		] ) );
 		$this->assertEquals(
 			new Address( 'Im Graben 6', '10203', 'Berlin'),
 			$finder->findAddress( $this->loadFixture( 'multiple_addresses' ) )
