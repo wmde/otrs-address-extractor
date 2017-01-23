@@ -21,22 +21,15 @@ class AddressFinder {
 /x
 RGX;
 
-	private $addressFilter;
-
-	public function __construct( AddressFilter $addressFilter ) {
-		$this->addressFilter = $addressFilter;
-	}
-
-	public function findAddress( string $text ): ?Address {
-
+	public function findAddresses( string $text ): array {
 		if ( !preg_match_all( sprintf( self::POSTCODE_MATCHER, self::POSTCODE_LENGTH), $text, $matches, PREG_OFFSET_CAPTURE ) ) {
-			return null;
+			return [];
 		}
 		$addresses = [];
 		foreach( $matches[0] as $match ) {
 			$addresses[] = $this->extractAddress( $text, $match[1] );
 		}
-		return $this->addressFilter->firstValidAddress( $addresses );
+		return $addresses;
 	}
 
 	private function extractAddress( $text, $postcodePosition ): Address {

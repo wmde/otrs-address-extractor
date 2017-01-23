@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress\Test;
 
@@ -20,57 +20,57 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGivenAnEmptyStringItReturnsNull() {
-		$this->assertNull( $this->addressFinder->findAddress( '' ) );
+		$this->assertSame( [], $this->addressFinder->findAddresses( '' ) );
 	}
 
 	public function testGivenAnAddressOnOneLineItIsExtracted() {
 		$this->assertEquals(
-			new Address( 'Irrweg 7', '12345', 'Berlin'),
-			$this->addressFinder->findAddress( $this->loadFixture( 'one_line_address' ) )
+			[ new Address( 'Irrweg 7', '12345', 'Berlin') ],
+			$this->addressFinder->findAddresses( $this->loadFixture( 'one_line_address' ) )
 		);
 	}
 
 	public function testGivenAnAddressOnFirstLineItIsExtracted() {
 		$this->assertEquals(
-			new Address( 'Irrweg 7', '12345', 'Berlin'),
-			$this->addressFinder->findAddress( $this->loadFixture( 'first_line_address' ) )
+			[ new Address( 'Irrweg 7', '12345', 'Berlin') ],
+			$this->addressFinder->findAddresses( $this->loadFixture( 'first_line_address' ) )
 		);
 	}
 
 	public function testGivenAnAddressSeveralLinesItIsExtracted() {
 		$this->assertEquals(
-			new Address( 'Irrweg 7', '12345', 'Berlin'),
-			$this->addressFinder->findAddress( $this->loadFixture( 'multiline_address' ) )
+			[ new Address( 'Irrweg 7', '12345', 'Berlin') ],
+			$this->addressFinder->findAddresses( $this->loadFixture( 'multiline_address' ) )
 		);
 	}
 
-	public function testGivenMultipleAddresssesOnlyTheFirstIsExtracted() {
+	public function testGivenMultipleAddresssesAllAreExtracted() {
 		$this->assertEquals(
-			new Address( 'Irrweg 7', '12345', 'Berlin'),
-			$this->addressFinder->findAddress( $this->loadFixture( 'multiple_addresses' ) )
+			[
+				new Address( 'Irrweg 7', '12345', 'Berlin'),
+				new Address( 'Im Graben 6', '10203', 'Berlin'),
+			],
+			$this->addressFinder->findAddresses( $this->loadFixture( 'multiple_addresses' ) )
 		);
 	}
 
-	public function testGivenMultipleAddresssesOnlyTheFirstValidAddressIsExtracted() {
+	public function testGivenMultipleAddresssesValidAndInvalidAddressesAreExtracted() {
 		$this->assertEquals(
-			new Address( 'Irrweg 7', '12345', 'Berlin'),
-			$this->addressFinder->findAddress( $this->loadFixture( 'multiple_addresses_one_invalid' ) )
+			[
+				new Address( '', '30000', 'Hannover'),
+				new Address( 'Irrweg 7', '12345', 'Berlin'),
+			],
+			$this->addressFinder->findAddresses( $this->loadFixture( 'multiple_addresses_one_invalid' ) )
 		);
 	}
 
-	public function testGivenMultipleInvalidAddresssesNullIsReturned() {
-		$this->assertNull(
-			$this->addressFinder->findAddress( $this->loadFixture( 'multiple_addresses_all_invalid' ) )
-		);
-	}
-
-	public function testGivenAnExcludedAddressItIsIgnored() {
-		$finder = new AddressFinder( new AddressFilter([
-			new Address( 'Irrweg 7', '12345', 'Berlin')
-		] ) );
+	public function testGivenMultipleInvalidAddresssesAreExtracted() {
 		$this->assertEquals(
-			new Address( 'Im Graben 6', '10203', 'Berlin'),
-			$finder->findAddress( $this->loadFixture( 'multiple_addresses' ) )
+			[
+				new Address( '', '30000', 'Hannover'),
+				new Address( 'Die Straße ist gleich geblieben, nur meine Postleitzahl ist jetzt', '12345', '')
+			],
+			$this->addressFinder->findAddresses( $this->loadFixture( 'multiple_addresses_all_invalid' ) )
 		);
 	}
 
