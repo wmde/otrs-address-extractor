@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress;
 
@@ -18,8 +18,16 @@ class AddressFinder {
 		if ( !preg_match_all( '/\d{' . self::POSTCODE_LENGTH . '}/', $text, $matches, PREG_OFFSET_CAPTURE ) ) {
 			return null;
 		}
-		$match = $matches[0];
-		$postcodePosition = $match[0][1];
+		foreach( $matches[0] as $match ) {
+			$address = $this->extractAddress( $text, $match[1] );
+			if ( $address->isValid() ) {
+				return $address;
+			}
+		}
+		return null;
+	}
+
+	private function extractAddress( $text, $postcodePosition ): Address {
 		$postcode = substr( $text, $postcodePosition, self::POSTCODE_LENGTH );
 
 		return new Address(

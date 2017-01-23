@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress;
 
@@ -32,6 +32,12 @@ class Address {
 
 	public function getCity(): string {
 		return $this->city;
+	}
+
+	public function isValid(): bool {
+		return $this->getStreet() !== '' &&
+			$this->getPostcode() !== '' &&
+			$this->getCity() !== '';
 	}
 
 }

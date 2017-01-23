@@ -36,6 +36,26 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public function testGivenMultipleAddresssesOnlyTheFirstIsExtracted() {
+		$this->assertEquals(
+			new Address( 'Irrweg 7', '12345', 'Berlin'),
+			$this->addressFinder->findAddress( $this->loadFixture( 'multiple_addresses' ) )
+		);
+	}
+
+	public function testGivenMultipleAddresssesOnlyTheFirstValidAddressIsExtracted() {
+		$this->assertEquals(
+			new Address( 'Irrweg 7', '12345', 'Berlin'),
+			$this->addressFinder->findAddress( $this->loadFixture( 'multiple_addresses_one_invalid' ) )
+		);
+	}
+
+	public function testGivenMultipleInvalidAddresssesNullIsReturned() {
+		$this->assertNull(
+			$this->addressFinder->findAddress( $this->loadFixture( 'multiple_addresses_all_invalid' ) )
+		);
+	}
+
 	private function loadFixture( string $fixtureName ): string {
 		return file_get_contents( __DIR__ . '/data/' . $fixtureName . '.txt' );
 	}
