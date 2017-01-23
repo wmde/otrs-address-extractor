@@ -13,6 +13,13 @@ namespace WMDE\OtrsExtractAddress;
 class AddressFinder {
 
 	const POSTCODE_LENGTH = 5;
+	const POSTCODE_MATCHER =  <<<RGX
+/
+	(?<=\D)  # postcode digits must be preceded by a non-digit
+	\d{%d}   # postcode digits, with a placeholder where POSTCODE_LENGTH will be inserted 
+	(?=\D)   # postcode digits must be followed by a non-digit (to ensure distinction between other numbers)
+/x
+RGX;
 
 	private $addressFilter;
 
@@ -21,7 +28,8 @@ class AddressFinder {
 	}
 
 	public function findAddress( string $text ): ?Address {
-		if ( !preg_match_all( '/\d{' . self::POSTCODE_LENGTH . '}/', $text, $matches, PREG_OFFSET_CAPTURE ) ) {
+
+		if ( !preg_match_all( sprintf( self::POSTCODE_MATCHER, self::POSTCODE_LENGTH), $text, $matches, PREG_OFFSET_CAPTURE ) ) {
 			return null;
 		}
 		$addresses = [];
