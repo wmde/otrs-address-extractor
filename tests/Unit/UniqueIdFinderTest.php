@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\OtrsExtractAddress\Test;
+namespace WMDE\OtrsExtractAddress\Test\Unit;
 
 use WMDE\OtrsExtractAddress\UniqueId;
 use WMDE\OtrsExtractAddress\UniqueIdFinder;

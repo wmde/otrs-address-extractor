@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\OtrsExtractAddress\Test;
+namespace WMDE\OtrsExtractAddress\Test\Unit;
 
 use WMDE\OtrsExtractAddress\Address;
 use WMDE\OtrsExtractAddress\AddressFilter;
@@ -75,6 +75,6 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function loadFixture( string $fixtureName ): string {
-		return file_get_contents( __DIR__ . '/data/' . $fixtureName . '.txt' );
+		return file_get_contents( __DIR__ . '/../data/' . $fixtureName . '.txt' );
 	}
 }

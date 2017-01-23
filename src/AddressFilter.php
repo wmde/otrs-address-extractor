@@ -19,7 +19,7 @@ class AddressFilter {
 		$this->excludedAddresses = $excludedAddresses;
 	}
 
-	public function firstValidAddress( array $addresses ) {
+	public function firstValidAddress( array $addresses ): ?Address {
 		foreach( $addresses as $address ) {
 			if ( !$address->isValid() ) {
 				continue;
