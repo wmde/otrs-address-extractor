@@ -39,6 +39,9 @@ class AddressFinder {
 
 	private function extractStreet( string $text, int $postcodeStart ): string {
 		$streetStart = strrpos( substr( $text, 0, $postcodeStart - 1 ), "\n" );
+		if ( $streetStart === false ) {
+			$streetStart = 0;
+		}
 		$street = substr( $text, $streetStart, $postcodeStart - $streetStart );
 		return preg_replace( '/,$/', '', trim( $street ) );
 	}
