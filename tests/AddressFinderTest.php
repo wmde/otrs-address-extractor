@@ -29,6 +29,13 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public function testGivenAnAddressSeveralLinesItIsExtracted() {
+		$this->assertEquals(
+			new Address( 'Irrweg 7', '12345', 'Berlin'),
+			$this->addressFinder->findAddress( $this->loadFixture( 'multiline_address' ) )
+		);
+	}
+
 	private function loadFixture( string $fixtureName ): string {
 		return file_get_contents( __DIR__ . '/data/' . $fixtureName . '.txt' );
 	}

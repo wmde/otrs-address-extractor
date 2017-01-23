@@ -29,14 +29,14 @@ class AddressFinder {
 		);
 	}
 
-	private function extractStreet( string $text, int $endOffset ): string {
-		$streetStart = strrpos( substr( $text, 0,  $endOffset ), "\n" );
-		$street = substr( $text, $streetStart, $endOffset - $streetStart );
+	private function extractStreet( string $text, int $postcodeStart ): string {
+		$streetStart = strrpos( substr( $text, 0, $postcodeStart - 1 ), "\n" );
+		$street = substr( $text, $streetStart, $postcodeStart - $streetStart );
 		return preg_replace( '/,$/', '', trim( $street ) );
 	}
 
-	private function extractCity( string $text, int $postcodeOffset ): string {
-		$cityStart = $postcodeOffset + self::POSTCODE_LENGTH;
+	private function extractCity( string $text, int $postcodeStart ): string {
+		$cityStart = $postcodeStart + self::POSTCODE_LENGTH;
 		$cityEnd = strpos( $text, "\n", $cityStart );
 		$city = substr( $text, $cityStart, $cityEnd - $cityStart );
 		return trim( $city );
