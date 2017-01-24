@@ -35,9 +35,9 @@ class Address {
 	}
 
 	public function isValid(): bool {
-		return $this->getStreet() !== '' &&
+		return strlen( $this->getStreet() ) > 3 &&
 			$this->getPostcode() !== '' &&
-			$this->getCity() !== '';
+			strlen( $this->getCity() ) > 1;
 	}
 
 }

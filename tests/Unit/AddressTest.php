@@ -28,4 +28,21 @@ class AddressTest extends \PHPUnit_Framework_TestCase {
 			[ 'Auf dem Weg', '30000', '' ],
 		];
 	}
+
+	/**
+	 * @dataProvider shortFieldProvider
+	 */
+	public function testGivenAddressWithShortCityOrStreetIsValidReturnsFalse( string $street, string $postcode, string $address ) {
+		$address = new Address( $street, $postcode, $address );
+		$this->assertFalse( $address->isValid() );
+	}
+
+	public function shortFieldProvider(): array {
+		return [
+			[ '>', '30000', 'Hannover' ],
+			[ 'Weg', '30000', 'Hannover' ],
+			[ 'Auf dem Weg', '30000', 'Y' ],
+		];
+	}
+
 }
