@@ -18,7 +18,7 @@ class UniqueIdFinder {
 	public function findIds( string $text ): array {
 		$ids = [];
 		$words = explode( ' ', $text );
-		foreach( $words as $idx => $word ) {
+		foreach ( $words as $idx => $word ) {
 			if ( is_numeric( $word ) ) {
 				$ids[] = $this->extractIdOrNull( $idx, $words );
 			}
@@ -27,10 +27,10 @@ class UniqueIdFinder {
 		return array_filter( $ids );
 	}
 
-	private function extractIdOrNull( $idx, array $words ): ?UniqueId {
+	private function extractIdOrNull( $idx, array $words ): ? UniqueId {
 		$start = max( 0, $idx - self::MAX_WORD_VICINITY );
 		$end = min( count( $words ), $idx + self::MAX_WORD_VICINITY );
-		for( $i = $start; $i < $end; $i++ ) {
+		for ( $i = $start; $i < $end; $i++ ) {
 			if ( $i === $idx ) {
 				continue;
 			}

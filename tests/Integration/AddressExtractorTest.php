@@ -40,7 +40,7 @@ class AddressExtractorTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame( $this->loadFile( 'rejected.csv' ), stream_get_contents( $rejected ) );
 	}
 
-	private function loadFile(string $fixtureName ): string {
+	private function loadFile( string $fixtureName ): string {
 		return file_get_contents( __DIR__ . '/../data/' . $fixtureName );
 	}
 

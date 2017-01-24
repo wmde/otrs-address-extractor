@@ -45,7 +45,7 @@ class UniqueIdFinderTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testFollowingAddressNumber() {
-		$ids = $this->finder->findIds('Adressnr. 6060842' );
+		$ids = $this->finder->findIds( 'Adressnr. 6060842' );
 		$this->assertCount( 1, $ids );
 		$this->assertEquals(
 			UniqueId::newAddressNumber( 6060842 ),
@@ -54,7 +54,7 @@ class UniqueIdFinderTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testPrecedingAddressNumber() {
-		$ids = $this->finder->findIds('6060842 ist meine Adressnummer' );
+		$ids = $this->finder->findIds( '6060842 ist meine Adressnummer' );
 		$this->assertCount( 1, $ids );
 		$this->assertEquals(
 			UniqueId::newAddressNumber( 6060842 ),
@@ -68,7 +68,7 @@ class UniqueIdFinderTest extends \PHPUnit_Framework_TestCase {
 				UniqueId::newAddressNumber( 12345 ),
 				UniqueId::newAddressNumber( 6060842 )
 			],
-			$this->finder->findIds('12345 Berlin, Adressnummer 6060842' )
+			$this->finder->findIds( '12345 Berlin, Adressnummer 6060842' )
 		);
 	}
 

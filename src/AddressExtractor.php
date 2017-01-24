@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress;
 
@@ -17,11 +17,10 @@ class AddressExtractor {
 	}
 
 	public function extractAddresses( SourceDataReader $reader, $outputStream, $rejectionStream ) {
-
-		while( $reader->hasMoreRows() ) {
+		while ( $reader->hasMoreRows() ) {
 			$data = $reader->getRow();
 			$result = $this->validator->validate( $data );
-			if( $result->isValid() ) {
+			if ( $result->isValid() ) {
 				fwrite( $outputStream, $this->formatAsCSV( $this->createOutputRow( $data, $result->getAddress() ) ) );
 			} else {
 				fwrite( $rejectionStream, $this->formatAsCSV( $this->createRejectionRow( $data, $result->getValidationError() ) ) );

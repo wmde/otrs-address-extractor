@@ -18,7 +18,6 @@ class SourceDataValidationResult {
 		$this->address = $address;
 	}
 
-
 	public static function newValidResult( Address $address ) {
 		return new self( $address, '' );
 	}

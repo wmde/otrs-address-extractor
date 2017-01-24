@@ -25,21 +25,21 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGivenAnAddressOnOneLineItIsExtracted() {
 		$this->assertEquals(
-			[ new Address( 'Irrweg 7', '12345', 'Berlin') ],
+			[ new Address( 'Irrweg 7', '12345', 'Berlin' ) ],
 			$this->addressFinder->findAddresses( $this->loadFile( 'one_line_address' ) )
 		);
 	}
 
 	public function testGivenAnAddressOnFirstLineItIsExtracted() {
 		$this->assertEquals(
-			[ new Address( 'Irrweg 7', '12345', 'Berlin') ],
+			[ new Address( 'Irrweg 7', '12345', 'Berlin' ) ],
 			$this->addressFinder->findAddresses( $this->loadFile( 'first_line_address' ) )
 		);
 	}
 
 	public function testGivenAnAddressSeveralLinesItIsExtracted() {
 		$this->assertEquals(
-			[ new Address( 'Irrweg 7', '12345', 'Berlin') ],
+			[ new Address( 'Irrweg 7', '12345', 'Berlin' ) ],
 			$this->addressFinder->findAddresses( $this->loadFile( 'multiline_address' ) )
 		);
 	}
@@ -47,8 +47,8 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	public function testGivenMultipleAddresssesAllAreExtracted() {
 		$this->assertEquals(
 			[
-				new Address( 'Irrweg 7', '12345', 'Berlin'),
-				new Address( 'Im Graben 6', '10203', 'Berlin'),
+				new Address( 'Irrweg 7', '12345', 'Berlin' ),
+				new Address( 'Im Graben 6', '10203', 'Berlin' ),
 			],
 			$this->addressFinder->findAddresses( $this->loadFile( 'multiple_addresses' ) )
 		);
@@ -57,8 +57,8 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	public function testGivenMultipleAddresssesValidAndInvalidAddressesAreExtracted() {
 		$this->assertEquals(
 			[
-				new Address( '', '30000', 'Hannover'),
-				new Address( 'Irrweg 7', '12345', 'Berlin'),
+				new Address( '', '30000', 'Hannover' ),
+				new Address( 'Irrweg 7', '12345', 'Berlin' ),
 			],
 			$this->addressFinder->findAddresses( $this->loadFile( 'multiple_addresses_one_invalid' ) )
 		);
@@ -67,14 +67,14 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	public function testGivenMultipleInvalidAddresssesAreExtracted() {
 		$this->assertEquals(
 			[
-				new Address( '', '30000', 'Hannover'),
-				new Address( 'Die Straße ist gleich geblieben, nur meine Postleitzahl ist jetzt', '12345', '')
+				new Address( '', '30000', 'Hannover' ),
+				new Address( 'Die Straße ist gleich geblieben, nur meine Postleitzahl ist jetzt', '12345', '' )
 			],
 			$this->addressFinder->findAddresses( $this->loadFile( 'multiple_addresses_all_invalid' ) )
 		);
 	}
 
-	private function loadFile(string $fixtureName ): string {
+	private function loadFile( string $fixtureName ): string {
 		return file_get_contents( __DIR__ . '/../data/' . $fixtureName . '.txt' );
 	}
 }

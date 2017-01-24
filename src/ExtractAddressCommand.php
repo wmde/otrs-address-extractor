@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress;
 
@@ -24,12 +24,11 @@ class ExtractAddressCommand extends Command {
 	protected function configure()
 	{
 		$this
-			->setName('extract')
-			->setDescription('Extract addresses from OTRS file')
+			->setName( 'extract' )
+			->setDescription( 'Extract addresses from OTRS file' )
 			->addOption( 'output', 'o', InputOption::VALUE_REQUIRED, 'Output file' )
 			->addOption( 'rejected', 'r', InputOption::VALUE_REQUIRED, 'Filename for rejected entries' )
-			->addArgument( 'inputfile', InputArgument::REQUIRED )
-		;
+			->addArgument( 'inputfile', InputArgument::REQUIRED );
 	}
 
 	protected function execute( InputInterface $input, OutputInterface $output )

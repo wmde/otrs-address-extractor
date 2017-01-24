@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress;
 
@@ -31,9 +31,9 @@ class CSVSourceDataReader implements SourceDataReader {
 	public function getRow(): SourceData {
 		$row = fgetcsv( $this->sourceStream, null, $this->delimiter, $this->enclosure );
 		return new SourceData(
-			(int) $row[self::COL_TICKET_NUMBER ],
-			$row[ self::COL_EMAIL ],
-			$row[ self::COL_BODY ]
+			(int) $row[self::COL_TICKET_NUMBER],
+			$row[self::COL_EMAIL],
+			$row[self::COL_BODY]
 		);
 	}
 

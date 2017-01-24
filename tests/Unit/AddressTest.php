@@ -6,7 +6,6 @@ namespace WMDE\OtrsExtractAddress\Test\Unit;
 
 use WMDE\OtrsExtractAddress\Address;
 
-
 class AddressTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGivenAnAddressWithAllFieldsIsValidReturnsTrue() {

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress;
 
@@ -19,8 +19,8 @@ class AddressFilter {
 		$this->excludedAddresses = $excludedAddresses;
 	}
 
-	public function firstValidAddress( array $addresses ): ?Address {
-		foreach( $addresses as $address ) {
+	public function firstValidAddress( array $addresses ): ? Address {
+		foreach ( $addresses as $address ) {
 			if ( !$address->isValid() ) {
 				continue;
 			}
