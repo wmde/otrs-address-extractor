@@ -21,22 +21,22 @@ class AddressExtractor {
 			$data = $reader->getRow();
 			$result = $this->validator->validate( $data );
 			if ( $result->isValid() ) {
-				fwrite( $outputStream, $this->formatAsCSV( $this->createOutputRow( $data, $result->getAddress() ) ) );
+				fwrite( $outputStream, $this->formatAsCSV( $this->createOutputRow( $result->getExtractedData() ) ) );
 			} else {
 				fwrite( $rejectionStream, $this->formatAsCSV( $this->createRejectionRow( $data, $result->getValidationError() ) ) );
 			}
 		}
 	}
 
-	private function createOutputRow( SourceData $data, Address $address ) {
+	private function createOutputRow( ExtractedData $data ) {
 		return [
 			$data->getTicketNumber(),
 			$data->getEmail(),
-			$data->getUniqueIds()[0]->getType(),
-			$data->getUniqueIds()[0]->getId(),
-			$address->getStreet(),
-			$address->getPostcode(),
-			$address->getCity()
+			$data->getUniqueId()->getType(),
+			$data->getUniqueId()->getId(),
+			$data->getAddress()->getStreet(),
+			$data->getAddress()->getPostcode(),
+			$data->getAddress()->getCity()
 		];
 	}
 

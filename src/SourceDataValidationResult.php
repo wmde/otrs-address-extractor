@@ -15,15 +15,15 @@ class SourceDataValidationResult {
 	const ERR_NO_UNIQUE_ID = 'No address or membership id found.';
 
 	private $validationError;
-	private $address;
+	private $extractedData;
 
-	public function __construct( Address $address = null, string $validationError ) {
+	public function __construct( ExtractedData $extractedData = null, string $validationError ) {
 		$this->validationError = $validationError;
-		$this->address = $address;
+		$this->extractedData = $extractedData;
 	}
 
-	public static function newValidResult( Address $address ) {
-		return new self( $address, '' );
+	public static function newValidResult( ExtractedData $extractedData ) {
+		return new self( $extractedData, '' );
 	}
 
 	public static function newInvalidResult( string $validationError ) {
@@ -38,7 +38,7 @@ class SourceDataValidationResult {
 		return $this->getValidationError() === '';
 	}
 
-	public function getAddress(): Address {
-		return $this->address;
+	public function getExtractedData(): ExtractedData {
+		return $this->extractedData;
 	}
 }

@@ -68,17 +68,21 @@ class SourceDataValidatorTest extends \PHPUnit_Framework_TestCase
 
 	public function testGivenValidDataValidationSucceeds() {
 		$address = new Address( 'Im Graben 6', '10203', 'Berlin' );
+		$uniqueId = UniqueId::newMembershipNumber( 123 );
 		$sourceData = $this->createMock( SourceData::class );
 		$sourceData->method( 'getAddresses' )->willReturn( [ $address ] );
-		$sourceData->method( 'getUniqueIds' )->willReturn( [
-			UniqueId::newMembershipNumber( 123 )
-		] );
+		$sourceData->method( 'getUniqueIds' )->willReturn( [ $uniqueId ] );
+		$sourceData->method( 'getTicketNumber' )->willReturn( 23 );
+		$sourceData->method( 'getEmail' )->willReturn( 'hank.scorpio@globex.com' );
 		$validator = new SourceDataValidator( $this->createAddressFilter() );
 
 		$result = $validator->validate( $sourceData );
 
 		$this->assertTrue( $result->isValid() );
-		$this->assertSame( $address, $result->getAddress() );
+		$this->assertSame( 23, $result->getExtractedData()->getTicketNumber() );
+		$this->assertSame( 'hank.scorpio@globex.com', $result->getExtractedData()->getEmail() );
+		$this->assertSame( $address, $result->getExtractedData()->getAddress() );
+		$this->assertSame( $uniqueId, $result->getExtractedData()->getUniqueId() );
 	}
 
 	private function createAddressFilter(): AddressFilter {
