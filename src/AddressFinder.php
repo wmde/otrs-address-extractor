@@ -54,6 +54,9 @@ RGX;
 	private function extractCity( string $text, int $postcodeStart ): string {
 		$cityStart = $postcodeStart + self::POSTCODE_LENGTH;
 		$cityEnd = strpos( $text, "\n", $cityStart );
+		if ( $cityEnd === false ) {
+			$cityEnd = strlen( $text );
+		}
 		$city = substr( $text, $cityStart, $cityEnd - $cityStart );
 		return trim( $city );
 	}
