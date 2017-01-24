@@ -19,7 +19,13 @@ class AddressFilter {
 		$this->excludedAddresses = $excludedAddresses;
 	}
 
-	public function firstValidAddress( array $addresses ): ? Address {
+	public function firstValidAddress( array $addresses ): ?Address {
+		$filtered = $this->getValidAddresses( $addresses );
+		return array_shift( $filtered );
+	}
+
+	public function getValidAddresses( array $addresses ): array {
+		$validAddresses = [];
 		foreach ( $addresses as $address ) {
 			if ( !$address->isValid() ) {
 				continue;
@@ -27,9 +33,9 @@ class AddressFilter {
 			if ( in_array( $address, $this->excludedAddresses ) ) {
 				continue;
 			}
-			return $address;
+			$validAddresses[] = $address;
 		}
-		return null;
+		return $validAddresses;
 	}
 
 }
