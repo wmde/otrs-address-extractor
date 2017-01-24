@@ -22,6 +22,7 @@ class AddressFinder {
 RGX;
 
 	public function findAddresses( string $text ): array {
+		$text = preg_replace( "/\n\n+/", "\n", $text );
 		if ( !preg_match_all( sprintf( self::POSTCODE_MATCHER, self::POSTCODE_LENGTH ), $text, $matches, PREG_OFFSET_CAPTURE ) ) {
 			return [];
 		}
@@ -32,7 +33,7 @@ RGX;
 		return $addresses;
 	}
 
-	private function extractAddress( $text, $postcodePosition ): Address {
+	private function extractAddress( string $text, int $postcodePosition ): Address {
 		$postcode = substr( $text, $postcodePosition, self::POSTCODE_LENGTH );
 
 		return new Address(

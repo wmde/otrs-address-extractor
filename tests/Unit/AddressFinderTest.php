@@ -44,10 +44,17 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testGivenAnAddressSeveralLinesItIsExtracted() {
+	public function testGivenAnAddressOnSeveralLinesItIsExtracted() {
 		$this->assertEquals(
 			[ new Address( 'Irrweg 7', '12345', 'Berlin' ) ],
 			$this->addressFinder->findAddresses( $this->loadFile( 'multiline_address' ) )
+		);
+	}
+
+	public function testGivenAnAddressOnSeveralLinesWithBlankLinesInBetweenItIsExtracted() {
+		$this->assertEquals(
+			[ new Address( 'Irrweg 7', '12345', 'Berlin' ) ],
+			$this->addressFinder->findAddresses( $this->loadFile( 'blank_lines_address' ) )
 		);
 	}
 
@@ -71,7 +78,7 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	public function testGivenMultipleAddresssesValidAndInvalidAddressesAreExtracted() {
 		$this->assertEquals(
 			[
-				new Address( '', '30000', 'Hannover' ),
+				new Address( 'meine alte Adresse war', '30000', 'Hannover' ),
 				new Address( 'Irrweg 7', '12345', 'Berlin' ),
 			],
 			$this->addressFinder->findAddresses( $this->loadFile( 'multiple_addresses_one_invalid' ) )
@@ -81,7 +88,7 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	public function testGivenMultipleInvalidAddresssesAreExtracted() {
 		$this->assertEquals(
 			[
-				new Address( '', '30000', 'Hannover' ),
+				new Address( 'meine alte Adresse war', '30000', 'Hannover' ),
 				new Address( 'Die Straße ist gleich geblieben, nur meine Postleitzahl ist jetzt', '12345', '' )
 			],
 			$this->addressFinder->findAddresses( $this->loadFile( 'multiple_addresses_all_invalid' ) )
