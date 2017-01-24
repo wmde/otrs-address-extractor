@@ -45,4 +45,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase {
 		];
 	}
 
+	public function testAddressHashIsMd5OfItsFields() {
+		$address = new Address( 'Auf dem Weg', '30000', 'Hannover' );
+		$this->assertSame( md5( 'Auf dem Weg30000Hannover' ), $address->getHash() );
+	}
+
 }

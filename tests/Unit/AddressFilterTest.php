@@ -35,7 +35,7 @@ class AddressFilterTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testGetValidAddressesREturnsAllValidAddresses() {
+	public function testGetValidAddressesReturnsAllValidAddresses() {
 		$filter = new AddressFilter();
 		$this->assertEquals(
 			[
@@ -46,6 +46,18 @@ class AddressFilterTest extends \PHPUnit_Framework_TestCase {
 				new Address( '', '12345', 'Berlin' ),
 				new Address( 'Im Graben 6', '10203', 'Berlin' ),
 				new Address( 'Heimweg 23', '10405', 'Berlin' )
+			] )
+		);
+	}
+
+	public function testGivenMultipleIdenticalAddressesOnlyOneIsReturned() {
+		$filter = new AddressFilter();
+		$this->assertEquals(
+			[ new Address( 'Im Graben 6', '10203', 'Berlin' ) ],
+			$filter->getValidAddresses( [
+				new Address( 'Im Graben 6', '10203', 'Berlin' ),
+				new Address( 'Im Graben 6', '10203', 'Berlin' ),
+				new Address( 'Im Graben 6', '10203', 'Berlin' ),
 			] )
 		);
 	}

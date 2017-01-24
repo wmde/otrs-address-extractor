@@ -33,9 +33,9 @@ class AddressFilter {
 			if ( in_array( $address, $this->excludedAddresses ) ) {
 				continue;
 			}
-			$validAddresses[] = $address;
+			$validAddresses[ $address->getHash() ] = $address;
 		}
-		return $validAddresses;
+		return array_values( $validAddresses );
 	}
 
 }

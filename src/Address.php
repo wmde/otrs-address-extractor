@@ -40,4 +40,9 @@ class Address {
 			strlen( $this->getCity() ) > 1;
 	}
 
+	public function getHash(): string
+	{
+		return md5( $this->getStreet() . $this->getPostcode() . $this->getCity() );
+	}
+
 }
