@@ -32,8 +32,8 @@ class CSVSourceDataReader implements SourceDataReader {
 		$row = fgetcsv( $this->sourceStream, null, $this->delimiter, $this->enclosure );
 		return new SourceData(
 			(int) $row[self::COL_TICKET_NUMBER],
-			$row[self::COL_EMAIL],
-			$row[self::COL_BODY]
+			(string) $row[self::COL_EMAIL],
+			(string) $row[self::COL_BODY]
 		);
 	}
 
