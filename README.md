@@ -6,7 +6,7 @@ Source file must be an OTRS export with email bodies, ticket numbers and email a
 
 ## Usage
 
-    php extract_address.php --output output.csv --rejected rejected.csv exported_tickets.csv
+    php extract_address.php extract --output output.csv --rejected rejected.csv exported_tickets.csv
 
 ## Running the tests
 

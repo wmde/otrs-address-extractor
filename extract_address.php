@@ -15,6 +15,5 @@ $cmd = new ExtractAddressCommand( new AddressExtractor( new SourceDataValidator(
 
 $application = new Application();
 $application->add( $cmd );
-$application->setDefaultCommand( $cmd->getName() );
 
 $application->run();

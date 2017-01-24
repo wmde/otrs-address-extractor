@@ -21,6 +21,12 @@ class ExtractAddressCommand extends Command {
 	 */
 	private $addressExtractor;
 
+	public function __construct( AddressExtractor $addressExtractor )
+	{
+		parent::__construct();
+		$this->addressExtractor = $addressExtractor;
+	}
+
 	protected function configure()
 	{
 		$this
@@ -33,10 +39,10 @@ class ExtractAddressCommand extends Command {
 
 	protected function execute( InputInterface $input, OutputInterface $output )
 	{
-		$outputStream = $input->getOption( 'output' ) ?: STDOUT;
-		$rejectStream = $input->getOption( 'rejected' ) ?: STDERR;
-		$inputStream = fopen( $input->getArgument( 'inputfile' ), 'r' );
-		$this->addressExtractor->extractAddresses( $inputStream, $outputStream, $rejectStream );
+		$outputStream = $input->getOption( 'output' ) ? fopen( $input->getOption( 'output' ), 'w' ) : STDOUT;
+		$rejectStream = $input->getOption( 'rejected' ) ? fopen( $input->getOption( 'rejected' ), 'w' ) : STDERR;
+		$reader = new CSVSourceDataReader( fopen( $input->getArgument( 'inputfile' ), 'r' ), ';', '"' );
+		$this->addressExtractor->extractAddresses( $reader, $outputStream, $rejectStream );
 	}
 
 }
