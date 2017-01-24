@@ -1,12 +1,12 @@
 <?php
 
+declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress\Test\Integration;
 
 use WMDE\OtrsExtractAddress\AddressExtractor;
 use WMDE\OtrsExtractAddress\Test\Fixtures\FileSourceDataReader;
 use WMDE\OtrsExtractAddress\Test\Fixtures\SucceedingSourceDataValidator;
-
 
 class AddressExtractorTest extends \PHPUnit_Framework_TestCase {
 
