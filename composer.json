@@ -1,7 +1,8 @@
 {
   "name": "wmde/otrs-extract-address",
   "description": "Extract physical addresses from an OTRS CSV export",
-  "license": "GPL v2",
+  "homepage": "https://github.com/wmde/otrs-address-extractor",
+  "license": "GPL-2.0+",
   "authors": [
     {
       "name": "Gabriel Birke",
@@ -14,13 +15,13 @@
       "WMDE\\OtrsExtractAddress\\Test\\": "tests/"
     }
   },
+  "require": {
+    "symfony/console": "^3.2"
+  },
   "require-dev": {
     "phpunit/phpunit": "^5.7",
     "squizlabs/php_codesniffer": "^2.6.0",
     "mediawiki/mediawiki-codesniffer": "^0.7.2"
-  },
-  "require": {
-    "symfony/console": "^3.2"
   },
   "scripts": {
     "test": [
