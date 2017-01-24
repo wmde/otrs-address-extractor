@@ -62,6 +62,15 @@ class UniqueIdFinderTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public function testMultipleSpacesInText() {
+		$ids = $this->finder->findIds( "  Mitgliedsnummer  6060842\n \n Meine Adresse lautet:" );
+		$this->assertCount( 1, $ids );
+		$this->assertEquals(
+			UniqueId::newMembershipNumber( 6060842 ),
+			$ids[0]
+		);
+	}
+
 	public function testFindingMultipleNumbers() {
 		$this->assertEquals(
 			[
@@ -69,6 +78,15 @@ class UniqueIdFinderTest extends \PHPUnit_Framework_TestCase {
 				UniqueId::newAddressNumber( 6060842 )
 			],
 			$this->finder->findIds( '12345 Berlin, Adressnummer 6060842' )
+		);
+	}
+
+	public function testFindingAddressNumberWithPrecedingPostcode() {
+		$this->assertEquals(
+			[
+				UniqueId::newAddressNumber( 6060842 )
+			],
+			$this->finder->findIds( '12345 Berlin, more text to split address from id. Adressnummer 6060842' )
 		);
 	}
 

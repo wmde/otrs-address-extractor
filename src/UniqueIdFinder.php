@@ -17,14 +17,14 @@ class UniqueIdFinder {
 
 	public function findIds( string $text ): array {
 		$ids = [];
-		$words = explode( ' ', $text );
+		$words = preg_split( '/\s+/', $text );
 		foreach ( $words as $idx => $word ) {
 			if ( is_numeric( $word ) ) {
 				$ids[] = $this->extractIdOrNull( $idx, $words );
 			}
 		}
 
-		return array_filter( $ids );
+		return array_values( array_filter( $ids ) );
 	}
 
 	private function extractIdOrNull( $idx, array $words ): ? UniqueId {
