@@ -53,7 +53,7 @@ class AddressExtractor {
 	private function formatAsCSV( array $row ): string {
 		return implode( ';', array_map( function( $v ) {
 			if ( $v ) {
-				return '"'. str_replace( '"', '\\"', $v ) . '"';
+				return '"'. str_replace( '"', '""', $v ) . '"';
 			} else {
 				return '';
 			}

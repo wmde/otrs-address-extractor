@@ -5,12 +5,13 @@ declare( strict_types = 1 );
 namespace WMDE\OtrsExtractAddress\Test\Integration;
 
 use WMDE\OtrsExtractAddress\AddressExtractor;
+use WMDE\OtrsExtractAddress\Test\Fixtures\FailingSourceDataValidator;
 use WMDE\OtrsExtractAddress\Test\Fixtures\FileSourceDataReader;
 use WMDE\OtrsExtractAddress\Test\Fixtures\SucceedingSourceDataValidator;
 
 class AddressExtractorTest extends \PHPUnit_Framework_TestCase {
 
-	public function testAddressesWithSucceedingValidator() {
+	public function testAddressesWithSucceedingValidatorWritesCSVToOutput() {
 		$reader = new FileSourceDataReader( [ 'one_line_address', 'multiline_address' ] );
 		$extractor = new AddressExtractor( new SucceedingSourceDataValidator() );
 		$output = fopen( 'php://memory', 'r+' );
@@ -19,16 +20,28 @@ class AddressExtractorTest extends \PHPUnit_Framework_TestCase {
 		rewind( $output );
 		rewind( $rejected );
 
-		$this->assertSame( '', stream_get_contents( $rejected ) );
 		$this->assertSame(
-			'"1";;"Mitgliedsnummer";"66778899";"Irrweg 7";"12345";"Berlin"' .
-			"\n" .
-			'"2";;"Adressnummer";"90807060";"Irrweg 7";"12345";"Berlin"' .
-			"\n" ,
+			$this->loadFile( 'output.csv' ),
 			stream_get_contents( $output )
 		);
+		$this->assertSame( '', stream_get_contents( $rejected ) );
 	}
 
-	// TODO testAddressesWithFailingValidator
+	public function testAddressesWithFailingValidatorWritesCSVToReject() {
+		$reader = new FileSourceDataReader( [ 'one_line_address', 'multiline_address' ] );
+		$extractor = new AddressExtractor( new FailingSourceDataValidator() );
+		$output = fopen( 'php://memory', 'r+' );
+		$rejected = fopen( 'php://memory', 'r+' );
+		$extractor->extractAddresses( $reader, $output, $rejected );
+		rewind( $output );
+		rewind( $rejected );
+
+		$this->assertSame( '', stream_get_contents( $output ) );
+		$this->assertSame( $this->loadFile( 'rejected.csv' ), stream_get_contents( $rejected ) );
+	}
+
+	private function loadFile(string $fixtureName ): string {
+		return file_get_contents( __DIR__ . '/../data/' . $fixtureName );
+	}
 
 }
