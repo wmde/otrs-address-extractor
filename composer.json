@@ -16,6 +16,7 @@
     }
   },
   "require": {
+    "php": ">=7.1",
     "symfony/console": "^3.2"
   },
   "require-dev": {
