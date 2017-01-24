@@ -48,6 +48,16 @@ RGX;
 			$streetStart = 0;
 		}
 		$street = substr( $text, $streetStart, $postcodeStart - $streetStart );
+
+		// When street is empty (because of indentation), try previous line
+		if ( preg_match( '/^\n\ +$/', $street ) ) {
+			$streetStart = strrpos( substr( $text, 0, $streetStart - 1 ), "\n" );
+			if ( $streetStart === false ) {
+				$streetStart = 0;
+			}
+			$street = substr( $text, $streetStart, $postcodeStart - $streetStart );
+		}
+
 		return preg_replace( '/,$/', '', trim( $street ) );
 	}
 

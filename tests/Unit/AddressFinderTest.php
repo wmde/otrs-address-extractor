@@ -51,6 +51,13 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public function testGivenAnIndentedAddressOnSeveralLinesItIsExtracted() {
+		$this->assertEquals(
+			[ new Address( 'Irrweg 7', '12345', 'Berlin' ) ],
+			$this->addressFinder->findAddresses( $this->loadFile( 'indented_address' ) )
+		);
+	}
+
 	public function testGivenMultipleAddresssesAllAreExtracted() {
 		$this->assertEquals(
 			[
