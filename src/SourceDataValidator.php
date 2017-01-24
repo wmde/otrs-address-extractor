@@ -17,7 +17,23 @@ class SourceDataValidator implements SourceDataValidatorInterface {
 	}
 
 	public function validate( SourceData $data ): SourceDataValidationResult {
-		// TODO proper validation criteria
-		return SourceDataValidationResult::newInvalidResult( 'Not implemented' );
+		$addresses = $this->addressFilter->getValidAddresses( $data->getAddresses() );
+		switch ( count( $addresses ) ) {
+			case 0:
+				return SourceDataValidationResult::newInvalidResult( SourceDataValidationResult::ERR_NO_ADDRESS );
+			case 1:
+				break;
+			default:
+				return SourceDataValidationResult::newInvalidResult( SourceDataValidationResult::ERR_TOO_MANY_ADDRESSES );
+		}
+		$address = $this->addressFilter->firstValidAddress( $addresses );
+		$uniqueIds = $data->getUniqueIds();
+		$uniqueIds = array_filter( $uniqueIds, function( UniqueId $id ) use ( $address ) {
+			return (string) $id->getId() !== $address->getPostcode();
+		} );
+		if ( count( $uniqueIds ) === 0 ) {
+			return SourceDataValidationResult::newInvalidResult( SourceDataValidationResult::ERR_NO_UNIQUE_ID );
+		}
+		return SourceDataValidationResult::newValidResult( $address );
 	}
 }

@@ -10,6 +10,10 @@ namespace WMDE\OtrsExtractAddress;
  */
 class SourceDataValidationResult {
 
+	const ERR_NO_ADDRESS = 'No address found.';
+	const ERR_TOO_MANY_ADDRESSES = 'Several addresses found.';
+	const ERR_NO_UNIQUE_ID = 'No address or membership id found.';
+
 	private $validationError;
 	private $address;
 
