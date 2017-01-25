@@ -2,7 +2,9 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\OtrsExtractAddress;
+namespace WMDE\OtrsExtractAddress\DataAccess;
+
+use WMDE\OtrsExtractAddress\Domain\SourceData;
 
 /**
  * @license GNU GPL v2+

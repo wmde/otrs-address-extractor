@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\OtrsExtractAddress;
+namespace WMDE\OtrsExtractAddress\Domain;
 
 /**
  * Look for 5-digit postcode and extract text around them as address

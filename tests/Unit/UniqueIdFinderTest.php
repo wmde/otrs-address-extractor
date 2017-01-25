@@ -4,8 +4,8 @@ declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress\Test\Unit;
 
-use WMDE\OtrsExtractAddress\UniqueId;
-use WMDE\OtrsExtractAddress\UniqueIdFinder;
+use WMDE\OtrsExtractAddress\Domain\UniqueId;
+use WMDE\OtrsExtractAddress\Domain\UniqueIdFinder;
 
 class UniqueIdFinderTest extends \PHPUnit_Framework_TestCase {
 

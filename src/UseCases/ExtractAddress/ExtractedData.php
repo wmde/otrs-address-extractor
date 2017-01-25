@@ -2,7 +2,10 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\OtrsExtractAddress;
+namespace WMDE\OtrsExtractAddress\UseCases\ExtractAddress;
+
+use WMDE\OtrsExtractAddress\Domain\Address;
+use WMDE\OtrsExtractAddress\Domain\UniqueId;
 
 class ExtractedData
 {

@@ -2,13 +2,17 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\OtrsExtractAddress;
+namespace WMDE\OtrsExtractAddress\UseCases\ExtractAddress;
+
+use WMDE\OtrsExtractAddress\DataAccess\SourceDataReader;
+use WMDE\OtrsExtractAddress\Domain\SourceData;
+use WMDE\OtrsExtractAddress\SourceDataValidatorInterface;
 
 /**
  * @license GNU GPL v2+
  * @author Gabriel Birke < gabriel.birke@wikimedia.de >
  */
-class AddressExtractor {
+class ExtractAddressUseCase {
 
 	private $validator;
 

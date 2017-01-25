@@ -4,8 +4,8 @@ declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress\Test\Fixtures;
 
-use WMDE\OtrsExtractAddress\SourceData;
-use WMDE\OtrsExtractAddress\SourceDataReader;
+use WMDE\OtrsExtractAddress\Domain\SourceData;
+use WMDE\OtrsExtractAddress\DataAccess\SourceDataReader;
 
 /**
  * @license GNU GPL v2+

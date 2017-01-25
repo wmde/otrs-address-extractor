@@ -2,12 +2,12 @@
 
 namespace WMDE\OtrsExtractAddress\Test\Unit;
 
-use WMDE\OtrsExtractAddress\Address;
+use WMDE\OtrsExtractAddress\Domain\Address;
 use WMDE\OtrsExtractAddress\AddressFilter;
-use WMDE\OtrsExtractAddress\SourceData;
+use WMDE\OtrsExtractAddress\Domain\SourceData;
 use WMDE\OtrsExtractAddress\SourceDataValidationResult;
 use WMDE\OtrsExtractAddress\SourceDataValidator;
-use WMDE\OtrsExtractAddress\UniqueId;
+use WMDE\OtrsExtractAddress\Domain\UniqueId;
 
 class SourceDataValidatorTest extends \PHPUnit_Framework_TestCase
 {

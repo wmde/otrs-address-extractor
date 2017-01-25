@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress\Test\Integration;
 
-use WMDE\OtrsExtractAddress\AddressExtractor;
+use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\ExtractAddressUseCase;
 use WMDE\OtrsExtractAddress\Test\Fixtures\FailingSourceDataValidator;
 use WMDE\OtrsExtractAddress\Test\Fixtures\FileSourceDataReader;
 use WMDE\OtrsExtractAddress\Test\Fixtures\SucceedingSourceDataValidator;
@@ -13,7 +13,7 @@ class AddressExtractorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testAddressesWithSucceedingValidatorWritesCSVToOutput() {
 		$reader = new FileSourceDataReader( [ 'one_line_address', 'multiline_address' ] );
-		$extractor = new AddressExtractor( new SucceedingSourceDataValidator() );
+		$extractor = new ExtractAddressUseCase( new SucceedingSourceDataValidator() );
 		$output = fopen( 'php://memory', 'r+' );
 		$rejected = fopen( 'php://memory', 'r+' );
 		$extractor->extractAddresses( $reader, $output, $rejected );
@@ -29,7 +29,7 @@ class AddressExtractorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testAddressesWithFailingValidatorWritesCSVToReject() {
 		$reader = new FileSourceDataReader( [ 'one_line_address', 'multiline_address' ] );
-		$extractor = new AddressExtractor( new FailingSourceDataValidator() );
+		$extractor = new ExtractAddressUseCase( new FailingSourceDataValidator() );
 		$output = fopen( 'php://memory', 'r+' );
 		$rejected = fopen( 'php://memory', 'r+' );
 		$extractor->extractAddresses( $reader, $output, $rejected );

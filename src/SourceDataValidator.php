@@ -4,6 +4,10 @@ declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress;
 
+use WMDE\OtrsExtractAddress\Domain\SourceData;
+use WMDE\OtrsExtractAddress\Domain\UniqueId;
+use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\ExtractedData;
+
 /**
  * @license GNU GPL v2+
  * @author Gabriel Birke < gabriel.birke@wikimedia.de >

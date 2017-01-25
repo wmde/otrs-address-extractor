@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress\Test\Unit;
 
-use WMDE\OtrsExtractAddress\Address;
+use WMDE\OtrsExtractAddress\Domain\Address;
 
 class AddressTest extends \PHPUnit_Framework_TestCase {
 

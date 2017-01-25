@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\OtrsExtractAddress;
+namespace WMDE\OtrsExtractAddress\Domain;
 
 /**
  * Value object for address extraction

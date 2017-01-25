@@ -2,13 +2,15 @@
 
 declare( strict_types = 1 );
 
-namespace WMDE\OtrsExtractAddress;
+namespace WMDE\OtrsExtractAddress\Cli;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use WMDE\OtrsExtractAddress\DataAccess\CSVSourceDataReader;
+use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\ExtractAddressUseCase;
 
 /**
  * @license GNU GPL v2+
@@ -17,11 +19,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ExtractAddressCommand extends Command {
 
 	/**
-	 * @var AddressExtractor
+	 * @var ExtractAddressUseCase
 	 */
 	private $addressExtractor;
 
-	public function __construct( AddressExtractor $addressExtractor )
+	public function __construct( ExtractAddressUseCase $addressExtractor )
 	{
 		parent::__construct();
 		$this->addressExtractor = $addressExtractor;

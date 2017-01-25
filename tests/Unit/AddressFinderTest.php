@@ -4,14 +4,14 @@ declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress\Test\Unit;
 
-use WMDE\OtrsExtractAddress\Address;
+use WMDE\OtrsExtractAddress\Domain\Address;
 use WMDE\OtrsExtractAddress\AddressFilter;
-use WMDE\OtrsExtractAddress\AddressFinder;
+use WMDE\OtrsExtractAddress\Domain\AddressFinder;
 
 class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @var AddressFinder
+	 * @var \WMDE\OtrsExtractAddress\Domain\AddressFinder
 	 */
 	private $addressFinder;
 
