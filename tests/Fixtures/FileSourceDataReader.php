@@ -19,7 +19,7 @@ class FileSourceDataReader implements SourceDataReader {
 	public function __construct( array $sourcefiles ) {
 		$this->data = [];
 		foreach ( $sourcefiles as $idx => $file ) {
-			$this->data[] = new SourceData( $idx + 1, '', file_get_contents( __DIR__ . '/../data/' . $file . '.txt' ) );
+			$this->data[] = new SourceData( $idx + 1, '', '', file_get_contents( __DIR__ . '/../data/' . $file . '.txt' ) );
 		}
 		$this->count = 0;
 	}

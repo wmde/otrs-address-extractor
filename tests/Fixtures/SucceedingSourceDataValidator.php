@@ -19,6 +19,7 @@ class SucceedingSourceDataValidator implements SourceDataValidatorInterface {
 			new ExtractedData(
 				$data->getTicketNumber(),
 				$data->getEmail(),
+				$data->getTitle(),
 				$data->getAddresses()[0],
 				$data->getUniqueIds()[0]
 			)

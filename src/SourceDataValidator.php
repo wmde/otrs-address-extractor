@@ -41,6 +41,7 @@ class SourceDataValidator implements SourceDataValidatorInterface {
 		return SourceDataValidationResult::newValidResult( new ExtractedData(
 			$data->getTicketNumber(),
 			$data->getEmail(),
+			$data->getTitle(),
 			$address,
 			array_shift( $uniqueIds )
 		) );

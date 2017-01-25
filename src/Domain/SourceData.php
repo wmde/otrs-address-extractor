@@ -12,13 +12,15 @@ class SourceData {
 
 	private $ticketNumber;
 	private $email;
+	private $title;
 	private $body;
 	private $addressFinder;
 	private $uniqueIdFinder;
 
-	public function __construct( int $ticketNumber, string $email, string $body ) {
+	public function __construct( int $ticketNumber, string $email, string $title, string $body ) {
 		$this->ticketNumber = $ticketNumber;
 		$this->email = $email;
+		$this->title = $title;
 		$this->body = $body;
 		$this->addressFinder = new AddressFinder();
 		$this->uniqueIdFinder = new UniqueIdFinder();
@@ -30,6 +32,10 @@ class SourceData {
 
 	public function getEmail(): string {
 		return $this->email;
+	}
+
+	public function getTitle(): string {
+		return $this->title;
 	}
 
 	public function getBody(): string {

@@ -36,6 +36,7 @@ class ExtractAddressUseCase {
 		return [
 			$data->getTicketNumber(),
 			$data->getEmail(),
+			$data->getTitle(),
 			$data->getUniqueId()->getType(),
 			$data->getUniqueId()->getId(),
 			$data->getAddress()->getStreet(),
@@ -48,6 +49,7 @@ class ExtractAddressUseCase {
 		return [
 			$data->getTicketNumber(),
 			$data->getEmail(),
+			$data->getTitle(),
 			$errorMsg,
 			$data->getBody()
 		];

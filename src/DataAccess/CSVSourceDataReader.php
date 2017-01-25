@@ -14,6 +14,7 @@ class CSVSourceDataReader implements SourceDataReader {
 
 	private const COL_TICKET_NUMBER = 0;
 	private const COL_EMAIL = 15;
+	private const COL_TITLE = 16;
 	private const COL_BODY = 23;
 
 	private $sourceStream;
@@ -35,6 +36,7 @@ class CSVSourceDataReader implements SourceDataReader {
 		return new SourceData(
 			(int) $row[self::COL_TICKET_NUMBER],
 			(string) $row[self::COL_EMAIL],
+			(string) $row[self::COL_TITLE],
 			(string) $row[self::COL_BODY]
 		);
 	}
