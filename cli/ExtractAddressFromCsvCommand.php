@@ -16,7 +16,7 @@ use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\ExtractAddressUseCase;
  * @license GNU GPL v2+
  * @author Gabriel Birke < gabriel.birke@wikimedia.de >
  */
-class ExtractAddressCommand extends Command {
+class ExtractAddressFromCsvCommand extends Command {
 
 	/**
 	 * @var ExtractAddressUseCase
@@ -32,7 +32,7 @@ class ExtractAddressCommand extends Command {
 	protected function configure()
 	{
 		$this
-			->setName( 'extract' )
+			->setName( 'extract:csv' )
 			->setDescription( 'Extract addresses from OTRS file' )
 			->addOption( 'output', 'o', InputOption::VALUE_REQUIRED, 'Output file' )
 			->addOption( 'rejected', 'r', InputOption::VALUE_REQUIRED, 'Filename for rejected entries' )
