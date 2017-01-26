@@ -1,5 +1,5 @@
 CREATE TABLE `ticket` (
-  `id`                       BIGINT(20)  NOT NULL,
+  `id`                       INTEGER PRIMARY KEY,
   `tn`                       VARCHAR(50) NOT NULL,
   `title`                    VARCHAR(255)         DEFAULT NULL,
   `queue_id`                 INT(11)     NOT NULL,
@@ -24,6 +24,36 @@ CREATE TABLE `ticket` (
   `create_time`              TEXT    NOT NULL,
   `create_by`                INT(11)     NOT NULL,
   `change_time`              TEXT    NOT NULL,
-  `change_by`                INT(11)     NOT NULL,
-  PRIMARY KEY (`id`)
+  `change_by`                INT(11)     NOT NULL
+);
+
+CREATE TABLE `users` (
+  `id`          INTEGER PRIMARY KEY,
+  `login`       VARCHAR(200) NOT NULL,
+  `pw`          VARCHAR(64)  NOT NULL,
+  `title`       VARCHAR(50) DEFAULT NULL,
+  `first_name`  VARCHAR(100) NOT NULL,
+  `last_name`   VARCHAR(100) NOT NULL,
+  `valid_id`    SMALLINT(6)  NOT NULL,
+  `create_time` TEXT         NOT NULL,
+  `create_by`   INT(11)      NOT NULL,
+  `change_time` TEXT         NOT NULL,
+  `change_by`   INT(11)      NOT NULL
+);
+
+CREATE TABLE `ticket_history` (
+  `id`              INTEGER PRIMARY KEY,
+  `name`            VARCHAR(200) NOT NULL,
+  `history_type_id` SMALLINT(6)  NOT NULL,
+  `ticket_id`       BIGINT(20)   NOT NULL,
+  `article_id`      BIGINT(20) DEFAULT NULL,
+  `type_id`         SMALLINT(6)  NOT NULL,
+  `queue_id`        INT(11)      NOT NULL,
+  `owner_id`        INT(11)      NOT NULL,
+  `priority_id`     SMALLINT(6)  NOT NULL,
+  `state_id`        SMALLINT(6)  NOT NULL,
+  `create_time`     TEXT     NOT NULL,
+  `create_by`       INT(11)      NOT NULL,
+  `change_time`     TEXT     NOT NULL,
+  `change_by`       INT(11)      NOT NULL
 );

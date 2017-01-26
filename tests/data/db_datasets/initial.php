@@ -1,0 +1,61 @@
+<?php
+return [
+	'ticket' => [
+		[
+			'id' => 1,
+			'tn' => '2017011975011968',
+			'title' => 'Re: Spendenquittung 2016 - Bitte bestätigen Sie Ihre Adresse',
+			'queue_id' => 5,
+			'ticket_lock_id' => 1,
+			'type_id' => 1,
+			'service_id' => null,
+			'sla_id' => null,
+			'user_id' => 1,
+			'responsible_user_id' => 1,
+			'ticket_priority_id' => 3,
+			'ticket_state_id' => 1,
+			'customer_id' => 'test@example.com',
+			'customer_user_id' => 'test@example.com',
+			'timeout' => 1485425800,
+			'until_time' => 0,
+			'escalation_time' => 0,
+			'escalation_update_time' => 0,
+			'escalation_response_time' => 0,
+			'escalation_solution_time' => 0,
+			'archive_flag' => 0,
+			'create_time_unix' => 1484829803,
+			'create_time' => '2017-01-19 13:43:23',
+			'create_by' => 1,
+			'change_time' => '2017-01-19 13:43:23',
+			'change_by' => 1,
+		]
+	],
+	'users' => [
+		[
+			'id' => 1,
+			'login' => 'otrs-admin',
+			'pw' => '',
+			'title' => '',
+			'first_name' => 'Admin',
+			'last_name' => 'OTRS',
+			'valid_id' => 1,
+			'create_time' => '2012-12-12 12:13:14',
+			'create_by' => 1,
+			'change_time' => '2012-12-12 12:13:14',
+			'change_by' => 1
+		],
+		[
+			'id' => 99,
+			'login' => 'Address Checker',
+			'pw' => '',
+			'title' => '',
+			'first_name' => 'Address',
+			'last_name' => 'Checker',
+			'valid_id' => 1,
+			'create_time' => '2012-12-12 12:13:14',
+			'create_by' => 1,
+			'change_time' => '2012-12-12 12:13:14',
+			'change_by' => 1,
+		]
+	],
+];
