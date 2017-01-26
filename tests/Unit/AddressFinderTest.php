@@ -96,6 +96,6 @@ class AddressFinderTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function loadFile( string $fixtureName ): string {
-		return file_get_contents( __DIR__ . '/../data/' . $fixtureName . '.txt' );
+		return file_get_contents( __DIR__ . '/../data/emails/' . $fixtureName . '.txt' );
 	}
 }
