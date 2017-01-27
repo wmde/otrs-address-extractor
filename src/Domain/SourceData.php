@@ -10,6 +10,7 @@ namespace WMDE\OtrsExtractAddress\Domain;
  */
 class SourceData {
 
+	private $ticketId;
 	private $ticketNumber;
 	private $email;
 	private $title;
@@ -17,13 +18,18 @@ class SourceData {
 	private $addressFinder;
 	private $uniqueIdFinder;
 
-	public function __construct( int $ticketNumber, string $email, string $title, string $body ) {
+	public function __construct( int $ticketId, int $ticketNumber, string $email, string $title, string $body ) {
+		$this->ticketId = $ticketId;
 		$this->ticketNumber = $ticketNumber;
 		$this->email = $email;
 		$this->title = $title;
 		$this->body = $body;
 		$this->addressFinder = new AddressFinder();
 		$this->uniqueIdFinder = new UniqueIdFinder();
+	}
+
+	public function getTicketId(): int {
+		return $this->ticketId;
 	}
 
 	public function getTicketNumber(): int {

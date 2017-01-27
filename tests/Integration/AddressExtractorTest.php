@@ -8,36 +8,46 @@ use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\ExtractAddressUseCase;
 use WMDE\OtrsExtractAddress\Test\Fixtures\FailingSourceDataValidator;
 use WMDE\OtrsExtractAddress\Test\Fixtures\FileSourceDataReader;
 use WMDE\OtrsExtractAddress\Test\Fixtures\SucceedingSourceDataValidator;
+use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\FoundAddressWriter;
+use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\RejectedAddressWriter;
 
 class AddressExtractorTest extends \PHPUnit_Framework_TestCase {
 
 	public function testAddressesWithSucceedingValidatorWritesCSVToOutput() {
 		$reader = new FileSourceDataReader( [ 'one_line_address', 'multiline_address' ] );
 		$extractor = new ExtractAddressUseCase( new SucceedingSourceDataValidator() );
-		$output = fopen( 'php://memory', 'r+' );
-		$rejected = fopen( 'php://memory', 'r+' );
-		$extractor->extractAddresses( $reader, $output, $rejected );
-		rewind( $output );
-		rewind( $rejected );
+		$outputStream = fopen( 'php://memory', 'r+' );
+		$rejectedStream = fopen( 'php://memory', 'r+' );
+		$extractor->extractAddresses(
+			$reader,
+			new FoundAddressWriter( $outputStream, 'http://example.com/?ticket=%d' ),
+			new RejectedAddressWriter( $rejectedStream )
+		);
+		rewind( $outputStream );
+		rewind( $rejectedStream );
 
 		$this->assertSame(
 			$this->loadFile( 'output.csv' ),
-			stream_get_contents( $output )
+			stream_get_contents( $outputStream )
 		);
-		$this->assertSame( '', stream_get_contents( $rejected ) );
+		$this->assertSame( '', stream_get_contents( $rejectedStream ) );
 	}
 
 	public function testAddressesWithFailingValidatorWritesCSVToReject() {
 		$reader = new FileSourceDataReader( [ 'one_line_address', 'multiline_address' ] );
 		$extractor = new ExtractAddressUseCase( new FailingSourceDataValidator() );
-		$output = fopen( 'php://memory', 'r+' );
-		$rejected = fopen( 'php://memory', 'r+' );
-		$extractor->extractAddresses( $reader, $output, $rejected );
-		rewind( $output );
-		rewind( $rejected );
+		$outputStream = fopen( 'php://memory', 'r+' );
+		$rejectedStream = fopen( 'php://memory', 'r+' );
+		$extractor->extractAddresses(
+			$reader,
+			new FoundAddressWriter( $outputStream, '%s' ),
+			new RejectedAddressWriter( $rejectedStream )
+		);
+		rewind( $outputStream );
+		rewind( $rejectedStream );
 
-		$this->assertSame( '', stream_get_contents( $output ) );
-		$this->assertSame( $this->loadFile( 'rejected.csv' ), stream_get_contents( $rejected ) );
+		$this->assertSame( '', stream_get_contents( $outputStream ) );
+		$this->assertSame( $this->loadFile( 'rejected.csv' ), stream_get_contents( $rejectedStream ) );
 	}
 
 	private function loadFile( string $fixtureName ): string {
