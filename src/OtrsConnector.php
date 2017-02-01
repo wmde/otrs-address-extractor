@@ -38,15 +38,15 @@ class OtrsConnector {
 		return $this->extractResponseData( $response );
 	}
 
-	private function createRequestBody( $ticketNumber, $newOwnerId ) {
-		return [
+	private function createRequestBody( $ticketNumber, $newOwnerId ): string {
+		return json_encode( [
 			'UserLogin' => $this->username,
 			'Password' => $this->password,
-			'TicketID' => $ticketNumber,
+			'TicketNumber' => $ticketNumber,
 			'Ticket' => [
 				'OwnerID' => $newOwnerId
 			]
-		];
+		] );
 	}
 
 	private function extractResponseData( ResponseInterface $response ): array {

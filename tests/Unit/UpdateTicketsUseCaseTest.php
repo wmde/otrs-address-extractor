@@ -17,19 +17,19 @@ class UpdateTicketsUseCaseTest extends \PHPUnit_Framework_TestCase {
 		$otrsConnector = $this->getMockBuilder( OtrsConnector::class )->disableOriginalConstructor()->getMock();
 		$otrsConnector->expects( $this->at( 0 ) )
 			->method( 'setTicketOwner' )
-			->with( 1, self::NEW_OWNER_ID );
+			->with( '1', self::NEW_OWNER_ID );
 		$otrsConnector->expects( $this->at( 1 ) )
 			->method( 'setTicketOwner' )
-			->with( 5, self::NEW_OWNER_ID );
+			->with( '5', self::NEW_OWNER_ID );
 		$useCase = new UpdateTicketsUseCase( $otrsConnector );
 
-		$useCase->updateTickets( new \ArrayIterator( [ 1, 5 ] ), self::NEW_OWNER_ID );
+		$useCase->updateTickets( new \ArrayIterator( [ '1', '5' ] ), self::NEW_OWNER_ID );
 	}
 
 	public function testNumberOfUpdateTicketsIsReturned() {
 		$otrsConnector = $this->getMockBuilder( OtrsConnector::class )->disableOriginalConstructor()->getMock();
 		$useCase = new UpdateTicketsUseCase( $otrsConnector );
-		$this->assertSame( 3, $useCase->updateTickets( new \ArrayIterator( [ 1, 5, 2347 ] ), self::NEW_OWNER_ID ) );
+		$this->assertSame( 3, $useCase->updateTickets( new \ArrayIterator( [ '1', '5', '2347' ] ), self::NEW_OWNER_ID ) );
 	}
 
 	public function testOtrsExceptionsAreLogged() {
@@ -39,7 +39,7 @@ class UpdateTicketsUseCaseTest extends \PHPUnit_Framework_TestCase {
 			->will( $this->throwException( new OtrsConnectorException( 'Oh no' ) ) );
 		$logger = new LoggerSpy();
 		$useCase = new UpdateTicketsUseCase( $otrsConnector, $logger );
-		$this->assertSame( 2, $useCase->updateTickets( new \ArrayIterator( [ 1, 5, 2347 ] ), self::NEW_OWNER_ID ) );
+		$this->assertSame( 2, $useCase->updateTickets( new \ArrayIterator( [ '1', '5', '2347' ] ), self::NEW_OWNER_ID ) );
 		$this->assertEquals(
 			[
 				0 => [ LogLevel::ERROR, 'Oh no', [] ]

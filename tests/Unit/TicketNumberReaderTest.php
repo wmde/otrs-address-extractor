@@ -16,7 +16,7 @@ class TicketNumberReaderTest extends \PHPUnit_Framework_TestCase {
 		$input->rewind();
 
 		$reader = new TicketNumberReader( $input );
-		$this->assertSame( [ 1, 2, 3 ], iterator_to_array( $reader ) );
+		$this->assertSame( [ '1', '2', '3' ], iterator_to_array( $reader ) );
 	}
 
 }

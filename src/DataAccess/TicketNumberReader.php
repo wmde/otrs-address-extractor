@@ -19,9 +19,9 @@ class TicketNumberReader extends \IteratorIterator {
 		parent::__construct( $inputFile );
 	}
 
-	public function current(): int {
+	public function current(): string {
 		$row = $this->getInnerIterator()->current();
-		return (int) $row[self::TICKET_NUMBER_COLUMN];
+		return (string) $row[self::TICKET_NUMBER_COLUMN];
 	}
 
 }

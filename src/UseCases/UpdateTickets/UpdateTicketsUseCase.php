@@ -30,7 +30,7 @@ class UpdateTicketsUseCase {
 		$counter = 0;
 		foreach ( $ticketNumbers as $ticketNumber ) {
 			try {
-				$this->otrsConnector->setTicketOwner( (string) $ticketNumber, $newOwnerId );
+				$this->otrsConnector->setTicketOwner( $ticketNumber, $newOwnerId );
 				$counter++;
 			} catch ( OtrsConnectorException $e ) {
 				$this->logger->error( $e->getMessage() );
