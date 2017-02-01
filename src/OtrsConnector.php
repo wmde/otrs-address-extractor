@@ -5,6 +5,7 @@ declare( strict_types = 1 );
 namespace WMDE\OtrsExtractAddress;
 
 use GuzzleHttp\Client;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @license GNU GPL v2+
@@ -27,20 +28,40 @@ class OtrsConnector {
 		$this->password = $password;
 	}
 
-	public function setTicketOwner( string $ticketNumber, int $newOwnerId ) {
-		$this->client->post( $this->url, [
-			'body' => [
-				'UserLogin' => $this->username,
-				'Password' => $this->password,
-				'TicketID' => $ticketNumber,
-				'Ticket' => [
-					'OwnerID' => $newOwnerId
-				]
-			],
+	public function setTicketOwner( string $ticketNumber, int $newOwnerId ): array {
+		$response = $this->client->post( $this->url, [
+			'body' => $this->createRequestBody( $ticketNumber, $newOwnerId ),
 			'headers' => [
 				'Content-Type' => 'application/json'
 			]
 		] );
+		return $this->extractResponseData( $response );
+	}
+
+	private function createRequestBody( $ticketNumber, $newOwnerId ) {
+		return [
+			'UserLogin' => $this->username,
+			'Password' => $this->password,
+			'TicketID' => $ticketNumber,
+			'Ticket' => [
+				'OwnerID' => $newOwnerId
+			]
+		];
+	}
+
+	private function extractResponseData( ResponseInterface $response ): array {
+		if ( $response->getStatusCode() !== 200 ) {
+			throw new OtrsConnectorException( 'Connection error, HTTP Status Code ' . $response->getStatusCode() );
+		}
+		$body = $response->getBody()->getContents();
+		$responseData = json_decode( $body, true );
+		if ( !is_array( $responseData ) ) {
+			throw new OtrsConnectorException( "Could not decode JSON response: \n" . $response->getBody() );
+		}
+		if ( array_key_exists( 'Error', $responseData ) ) {
+			throw new OtrsConnectorException( $responseData['Error']['ErrorMessage'] );
+		}
+		return $responseData;
 	}
 
 }
