@@ -42,7 +42,7 @@ class UpdateTicketsUseCaseTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame( 2, $useCase->updateTickets( new \ArrayIterator( [ '1', '5', '2347' ] ), self::NEW_OWNER_ID ) );
 		$this->assertEquals(
 			[
-				0 => [ LogLevel::ERROR, 'Oh no', [] ]
+				0 => [ LogLevel::ERROR, 'Ticket 5: Oh no', [] ]
 			],
 			$logger->getLogs()
 		);

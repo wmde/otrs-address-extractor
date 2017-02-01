@@ -37,10 +37,13 @@ class OtrsConnectorTest extends \PHPUnit_Framework_TestCase {
 				$this->anything(),
 				$this->callback( function ( array $data ) {
 					$this->assertArrayHasKey( 'body', $data );
-					$this->assertArraySubset( [
-						'UserLogin' => 'George Washington',
-						'Password' => '1d3p3nd3nc3'
-					], $data['body'] );
+					$this->assertArraySubset(
+						[
+							'UserLogin' => 'George Washington',
+							'Password' => '1d3p3nd3nc3'
+						],
+						json_decode( $data['body'], true )
+					);
 					return true;
 				} )
 			)
@@ -58,10 +61,13 @@ class OtrsConnectorTest extends \PHPUnit_Framework_TestCase {
 				$this->anything(),
 				$this->callback( function ( array $data ) {
 					$this->assertArrayHasKey( 'body', $data );
-					$this->assertArraySubset( [
-						'TicketID' => self::TICKET_NUMBER,
+					$this->assertArraySubset(
+						[
+						'TicketNumber' => self::TICKET_NUMBER,
 						'Ticket' => [ 'OwnerID' => self::NEW_OWNER_ID ]
-					], $data['body'] );
+						],
+						json_decode( $data['body'], true )
+					);
 					return true;
 				} )
 			)

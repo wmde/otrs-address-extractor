@@ -20,7 +20,7 @@ class UpdateTicketsUseCase {
 
 	public function __construct( OtrsConnector $otrsConnector, LoggerInterface $logger=null ) {
 		$this->otrsConnector = $otrsConnector;
-		if (is_null( $logger ) ) {
+		if ( is_null( $logger ) ) {
 			$logger = new NullLogger();
 		}
 		$this->logger = $logger;
@@ -33,7 +33,7 @@ class UpdateTicketsUseCase {
 				$this->otrsConnector->setTicketOwner( $ticketNumber, $newOwnerId );
 				$counter++;
 			} catch ( OtrsConnectorException $e ) {
-				$this->logger->error( $e->getMessage() );
+				$this->logger->error( 'Ticket ' . $ticketNumber . ': ' . $e->getMessage() );
 			}
 
 		}
