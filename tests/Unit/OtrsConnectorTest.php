@@ -33,10 +33,11 @@ class OtrsConnectorTest extends \PHPUnit_Framework_TestCase {
 				$this->anything(),
 				$this->anything(),
 				$this->callback( function ( array $data ) {
+					$this->assertArrayHasKey( 'body', $data );
 					$this->assertArraySubset( [
 						'UserLogin' => 'George Washington',
 						'Password' => '1d3p3nd3nc3'
-					], $data );
+					], $data['body'] );
 					return true;
 				} )
 			);
@@ -52,10 +53,30 @@ class OtrsConnectorTest extends \PHPUnit_Framework_TestCase {
 				$this->anything(),
 				$this->anything(),
 				$this->callback( function ( array $data ) {
+					$this->assertArrayHasKey( 'body', $data );
 					$this->assertArraySubset( [
 						'TicketID' => self::TICKET_NUMBER,
 						'Ticket' => [ 'OwnerID' => self::NEW_OWNER_ID ]
-					], $data );
+					], $data['body'] );
+					return true;
+				} )
+			);
+		$connector = new OtrsConnector( $client, 'https://example.com', 'George Washington', '1d3p3nd3nc3' );
+		$connector->setTicketOwner( self::TICKET_NUMBER, self::NEW_OWNER_ID );
+	}
+
+	public function testContentTypeIsApplicationJson() {
+		$client = $this->getMockBuilder( Client::class )->setMethods( [ 'request' ] )->getMock();
+		$client->expects( $this->once() )
+			->method( 'request' )
+			->with(
+				$this->anything(),
+				$this->anything(),
+				$this->callback( function ( array $data ) {
+					$this->assertArrayHasKey( 'headers', $data );
+					$this->assertArraySubset( [
+						'Content-Type' => 'application/json'
+					], $data['headers'] );
 					return true;
 				} )
 			);

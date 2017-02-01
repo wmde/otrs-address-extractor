@@ -29,11 +29,16 @@ class OtrsConnector {
 
 	public function setTicketOwner( string $ticketNumber, int $newOwnerId ) {
 		$this->client->post( $this->url, [
-			'UserLogin' => $this->username,
-			'Password' => $this->password,
-			'TicketID' => $ticketNumber,
-			'Ticket' => [
-				'OwnerID' => $newOwnerId
+			'body' => [
+				'UserLogin' => $this->username,
+				'Password' => $this->password,
+				'TicketID' => $ticketNumber,
+				'Ticket' => [
+					'OwnerID' => $newOwnerId
+				]
+			],
+			'headers' => [
+				'Content-Type' => 'application/json'
 			]
 		] );
 	}
