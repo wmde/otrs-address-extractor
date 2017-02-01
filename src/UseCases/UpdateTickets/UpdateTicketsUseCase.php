@@ -4,7 +4,10 @@ declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress\UseCases\UpdateTickets;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use WMDE\OtrsExtractAddress\OtrsConnector;
+use WMDE\OtrsExtractAddress\OtrsConnectorException;
 
 /**
  * @license GNU GPL v2+
@@ -13,14 +16,31 @@ use WMDE\OtrsExtractAddress\OtrsConnector;
 class UpdateTicketsUseCase {
 
 	private $otrsConnector;
+	private $logger;
 
-	public function __construct( OtrsConnector $otrsConnector ) {
+	public function __construct( OtrsConnector $otrsConnector, LoggerInterface $logger=null ) {
 		$this->otrsConnector = $otrsConnector;
+		if (is_null( $logger ) ) {
+			$logger = new NullLogger();
+		}
+		$this->logger = $logger;
 	}
 
-	public function updateTickets( \Traversable $ticketNumbers, int $newOwnerId ) {
+	public function updateTickets( \Traversable $ticketNumbers, int $newOwnerId ): int {
+		$counter = 0;
 		foreach ( $ticketNumbers as $ticketNumber ) {
-			$this->otrsConnector->setTicketOwner( (string) $ticketNumber, $newOwnerId );
+			try {
+				$this->otrsConnector->setTicketOwner( (string) $ticketNumber, $newOwnerId );
+				$counter++;
+			} catch ( OtrsConnectorException $e ) {
+				$this->logger->error( $e->getMessage() );
+			}
+
 		}
+		return $counter;
+	}
+
+	public function setLogger( $logger ) {
+		$this->logger = $logger;
 	}
 }
