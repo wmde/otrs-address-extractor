@@ -18,9 +18,9 @@ class UpdateTicketsUseCase {
 		$this->otrsConnector = $otrsConnector;
 	}
 
-	public function updateTickets( \Iterator $extractedData, int $newOwnerId ) {
-		foreach ( $extractedData as $item ) {
-			$this->otrsConnector->setTicketOwner( (string) $item->getTicketNumber(), $newOwnerId );
+	public function updateTickets( \Traversable $ticketNumbers, int $newOwnerId ) {
+		foreach ( $ticketNumbers as $ticketNumber ) {
+			$this->otrsConnector->setTicketOwner( (string) $ticketNumber, $newOwnerId );
 		}
 	}
 }
