@@ -13,41 +13,43 @@ use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\RejectedAddressWriter;
 
 class AddressExtractorTest extends \PHPUnit_Framework_TestCase {
 
+	private const READ_BYTES_SIZE = 8192;
+
 	public function testAddressesWithSucceedingValidatorWritesCSVToOutput() {
 		$reader = new FileSourceDataReader( [ 'one_line_address', 'multiline_address' ] );
 		$extractor = new ExtractAddressUseCase( new SucceedingSourceDataValidator() );
-		$outputStream = fopen( 'php://memory', 'r+' );
-		$rejectedStream = fopen( 'php://memory', 'r+' );
+		$outputStream = new \SplFileObject( 'php://memory', 'r+' );
+		$rejectedStream = new \SplFileObject( 'php://memory', 'r+' );
 		$extractor->extractAddresses(
 			$reader,
 			new FoundAddressWriter( $outputStream, 'http://example.com/?ticket=%d' ),
 			new RejectedAddressWriter( $rejectedStream )
 		);
-		rewind( $outputStream );
-		rewind( $rejectedStream );
+		$outputStream->rewind();
+		$rejectedStream->rewind();
 
 		$this->assertSame(
 			$this->loadFile( 'output.csv' ),
-			stream_get_contents( $outputStream )
+			$outputStream->fread( self::READ_BYTES_SIZE )
 		);
-		$this->assertSame( '', stream_get_contents( $rejectedStream ) );
+		$this->assertSame( '', $rejectedStream->fread( self::READ_BYTES_SIZE ) );
 	}
 
 	public function testAddressesWithFailingValidatorWritesCSVToReject() {
 		$reader = new FileSourceDataReader( [ 'one_line_address', 'multiline_address' ] );
 		$extractor = new ExtractAddressUseCase( new FailingSourceDataValidator() );
-		$outputStream = fopen( 'php://memory', 'r+' );
-		$rejectedStream = fopen( 'php://memory', 'r+' );
+		$outputStream = new \SplFileObject( 'php://memory', 'r+' );
+		$rejectedStream = new \SplFileObject( 'php://memory', 'r+' );
 		$extractor->extractAddresses(
 			$reader,
 			new FoundAddressWriter( $outputStream, '%s' ),
 			new RejectedAddressWriter( $rejectedStream )
 		);
-		rewind( $outputStream );
-		rewind( $rejectedStream );
+		$outputStream->rewind();
+		$rejectedStream->rewind();
 
-		$this->assertSame( '', stream_get_contents( $outputStream ) );
-		$this->assertSame( $this->loadFile( 'rejected.csv' ), stream_get_contents( $rejectedStream ) );
+		$this->assertSame( '', $outputStream->fread( self::READ_BYTES_SIZE ) );
+		$this->assertSame( $this->loadFile( 'rejected.csv' ), $rejectedStream->fread( self::READ_BYTES_SIZE ) );
 	}
 
 	private function loadFile( string $fixtureName ): string {

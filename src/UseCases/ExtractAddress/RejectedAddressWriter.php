@@ -14,14 +14,14 @@ class RejectedAddressWriter {
 
 	private $outputStream;
 
-	public function __construct( $outputStream ) {
+	public function __construct( \SplFileObject $outputStream ) {
 		$this->outputStream = $outputStream;
 		$this->csvFormatter = new CSVFormatter();
 	}
 
 	public function writeRow( SourceData $data, string $errorMsg ) {
 		// TODO add option to skip "not found" messages and export only other messages
-		fwrite( $this->outputStream, $this->csvFormatter->formatAsCSV( [
+		$this->outputStream->fwrite( $this->csvFormatter->formatAsCSV( [
 			$data->getTicketNumber(),
 			$data->getEmail(),
 			$data->getTitle(),

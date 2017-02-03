@@ -14,14 +14,14 @@ class FoundAddressWriter {
 	private $linkTemplate;
 	private $csvFormatter;
 
-	public function __construct( $outputStream, string $linkTemplate ) {
+	public function __construct( \SplFileObject $outputStream, string $linkTemplate ) {
 		$this->outputStream = $outputStream;
 		$this->linkTemplate = $linkTemplate;
 		$this->csvFormatter = new CSVFormatter();
 	}
 
 	public function writeRow( ExtractedData $data ) {
-		fwrite( $this->outputStream, $this->csvFormatter->formatAsCSV( [
+		$this->outputStream->fwrite( $this->csvFormatter->formatAsCSV( [
 			$data->getTicketNumber(),
 			$data->getEmail(),
 			$data->getTitle(),

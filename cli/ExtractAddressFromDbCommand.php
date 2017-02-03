@@ -52,8 +52,10 @@ class ExtractAddressFromDbCommand extends Command {
 		$startTime = new \DateTime( $input->getOption( 'start-time' )  );
 		$endTime = new \DateTime( $input->getOption( 'end-time' ) );
 
-		$outputStream = $input->getOption( 'output' ) ? fopen( $input->getOption( 'output' ), 'w' ) : STDOUT;
-		$rejectStream = $input->getOption( 'rejected' ) ? fopen( $input->getOption( 'rejected' ), 'w' ) : STDERR;
+		$outputStreamName = $input->getOption( 'output' ) ?? 'php://stdout';
+		$rejectStreamName = $input->getOption( 'rejected' ) ??  'php://stderr';
+		$outputStream = new \SplFileObject( $outputStreamName, 'w' );
+		$rejectStream = new \SplFileObject( $rejectStreamName, 'w' );
 
 		try {
 			$reader = new DbSourceDataReader( $this->getDb(), $startTime, $endTime );
