@@ -1,4 +1,5 @@
 <?php
+
 declare( strict_types = 1 );
 
 namespace WMDE\OtrsExtractAddress\Cli;
@@ -23,17 +24,12 @@ class UpdateTicketsCommand extends Command {
 	 */
 	private $updateTicketsUseCase;
 
-	/**
-	 * UpdateTicketsCommand constructor.
-	 * @param UpdateTicketsUseCase $updateTicketsUseCase
-	 */
 	public function __construct( UpdateTicketsUseCase $updateTicketsUseCase ) {
 		parent::__construct();
 		$this->updateTicketsUseCase = $updateTicketsUseCase;
 	}
 
-	protected function configure()
-	{
+	protected function configure() {
 		$this
 			->setName( 'update-tickets' )
 			->setDescription( 'Update tickets with new owner' )
@@ -42,13 +38,12 @@ class UpdateTicketsCommand extends Command {
 			->addArgument( 'inputfile', InputArgument::REQUIRED, 'CSV file with ticket numbers in the first column' );
 	}
 
-	protected function execute( InputInterface $input, OutputInterface $output )
-	{
+	protected function execute( InputInterface $input, OutputInterface $output ) {
 		$inputFile = new TicketNumberReader( $input->getArgument( 'inputfile' ) );
 		$this->updateTicketsUseCase->setLogger( new ConsoleLogger( $output ) );
 		$updatedTickets = $this->updateTicketsUseCase->updateTickets( $inputFile, (int) $input->getOption( 'owner' ) );
 		if ( $output->isVerbose() ) {
-			$output->writeln( sprintf( 'Updated %d tickets.', $updatedTickets) );
+			$output->writeln( sprintf( 'Updated %d tickets.', $updatedTickets ) );
 		}
 	}
 

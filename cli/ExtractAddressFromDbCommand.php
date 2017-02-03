@@ -33,8 +33,7 @@ class ExtractAddressFromDbCommand extends Command {
 		$this->addressExtractor = $addressExtractor;
 	}
 
-	protected function configure()
-	{
+	protected function configure() {
 		$this
 			->setName( 'extract:db' )
 			->setDescription( 'Extract addresses from OTRS database' )
@@ -47,9 +46,8 @@ class ExtractAddressFromDbCommand extends Command {
 
 	}
 
-	protected function execute( InputInterface $input, OutputInterface $output )
-	{
-		$startTime = new \DateTime( $input->getOption( 'start-time' )  );
+	protected function execute( InputInterface $input, OutputInterface $output ) {
+		$startTime = new \DateTime( $input->getOption( 'start-time' ) );
 		$endTime = new \DateTime( $input->getOption( 'end-time' ) );
 
 		$outputStreamName = $input->getOption( 'output' ) ?? 'php://stdout';
@@ -66,7 +64,7 @@ class ExtractAddressFromDbCommand extends Command {
 
 		$this->addressExtractor->extractAddresses(
 			$reader,
-			new FoundAddressWriter( $outputStream, $input->getOption( 'link-template') ),
+			new FoundAddressWriter( $outputStream, $input->getOption( 'link-template' ) ),
 			new RejectedAddressWriter( $rejectStream )
 		);
 	}

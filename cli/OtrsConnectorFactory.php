@@ -13,7 +13,7 @@ use WMDE\OtrsExtractAddress\OtrsConnector;
  * @author Gabriel Birke < gabriel.birke@wikimedia.de >
  */
 class OtrsConnectorFactory {
-	
+
 	public static function createConnectorFromEnvironment(): OtrsConnector {
 		$dotenv = new Dotenv( getcwd() );
 		$dotenv->load();
