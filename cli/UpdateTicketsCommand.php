@@ -44,7 +44,7 @@ class UpdateTicketsCommand extends Command {
 
 	protected function execute( InputInterface $input, OutputInterface $output )
 	{
-		$inputFile = new TicketNumberReader( new \SplFileObject( $input->getArgument( 'inputfile' ) ) );
+		$inputFile = new TicketNumberReader( $input->getArgument( 'inputfile' ) );
 		$this->updateTicketsUseCase->setLogger( new ConsoleLogger( $output ) );
 		$updatedTickets = $this->updateTicketsUseCase->updateTickets( $inputFile, (int) $input->getOption( 'owner' ) );
 		if ( $output->isVerbose() ) {

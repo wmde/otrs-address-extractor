@@ -12,7 +12,8 @@ class TicketNumberReader extends \IteratorIterator {
 
 	const TICKET_NUMBER_COLUMN = 0;
 
-	public function __construct( \SplFileObject $inputFile ) {
+	public function __construct( string $fileName ) {
+		$inputFile = new \SplFileObject( $fileName, 'r' );
 		$inputFile->setCsvControl( ';', '"' );
 		$inputFile->setFlags( \SplFileObject::READ_CSV | \SplFileObject::READ_AHEAD | \SplFileObject::SKIP_EMPTY
 			| \SplFileObject::DROP_NEW_LINE );
