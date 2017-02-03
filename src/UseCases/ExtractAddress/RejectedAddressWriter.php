@@ -12,17 +12,16 @@ use WMDE\OtrsExtractAddress\Domain\SourceData;
  */
 class RejectedAddressWriter {
 
-	use CSVFormatter;
-
 	private $outputStream;
 
 	public function __construct( $outputStream ) {
 		$this->outputStream = $outputStream;
+		$this->csvFormatter = new CSVFormatter();
 	}
 
 	public function writeRow( SourceData $data, string $errorMsg ) {
 		// TODO add option to skip "not found" messages and export only other messages
-		fwrite( $this->outputStream, $this->formatAsCSV( [
+		fwrite( $this->outputStream, $this->csvFormatter->formatAsCSV( [
 			$data->getTicketNumber(),
 			$data->getEmail(),
 			$data->getTitle(),

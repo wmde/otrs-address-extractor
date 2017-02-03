@@ -10,18 +10,18 @@ namespace WMDE\OtrsExtractAddress\UseCases\ExtractAddress;
  */
 class FoundAddressWriter {
 
-	use CSVFormatter;
-
 	private $outputStream;
 	private $linkTemplate;
+	private $csvFormatter;
 
 	public function __construct( $outputStream, string $linkTemplate ) {
 		$this->outputStream = $outputStream;
 		$this->linkTemplate = $linkTemplate;
+		$this->csvFormatter = new CSVFormatter();
 	}
 
 	public function writeRow( ExtractedData $data ) {
-		fwrite( $this->outputStream, $this->formatAsCSV( [
+		fwrite( $this->outputStream, $this->csvFormatter->formatAsCSV( [
 			$data->getTicketNumber(),
 			$data->getEmail(),
 			$data->getTitle(),
