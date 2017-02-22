@@ -43,6 +43,7 @@ class DbSourceDataReader implements SourceDataReader {
 		}
 		$this->currentRow++;
 		return new SourceData(
+			(int) $row['id'],
 			(int) $row['tn'],
 			(string) $row['email'],
 			(string) $row['title'],
@@ -58,7 +59,7 @@ class DbSourceDataReader implements SourceDataReader {
 		$stmt = $this->db->prepare( $this->getQuery( 'COUNT(t.id)' ) );
 		$stmt->execute( $queryParams );
 		$this->numRows = $stmt->fetchColumn();
-		$this->result = $this->db->prepare( $this->getQuery( ' t.tn, t.title, t.customer_id AS email, a.a_body AS body' ) );
+		$this->result = $this->db->prepare( $this->getQuery( ' t.id, t.tn, t.title, t.customer_id AS email, a.a_body AS body' ) );
 		$this->result->execute( $queryParams );
 	}
 

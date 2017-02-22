@@ -39,6 +39,7 @@ class SourceDataValidator implements SourceDataValidatorInterface {
 			return SourceDataValidationResult::newInvalidResult( SourceDataValidationResult::ERR_NO_UNIQUE_ID );
 		}
 		return SourceDataValidationResult::newValidResult( new ExtractedData(
+			$data->getTicketId(),
 			$data->getTicketNumber(),
 			$data->getEmail(),
 			$data->getTitle(),

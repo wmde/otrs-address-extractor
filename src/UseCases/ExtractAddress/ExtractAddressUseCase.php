@@ -5,7 +5,6 @@ declare( strict_types = 1 );
 namespace WMDE\OtrsExtractAddress\UseCases\ExtractAddress;
 
 use WMDE\OtrsExtractAddress\DataAccess\SourceDataReader;
-use WMDE\OtrsExtractAddress\Domain\SourceData;
 use WMDE\OtrsExtractAddress\SourceDataValidatorInterface;
 
 /**
@@ -20,48 +19,15 @@ class ExtractAddressUseCase {
 		$this->validator = $validator;
 	}
 
-	public function extractAddresses( SourceDataReader $reader, $outputStream, $rejectionStream ) {
+	public function extractAddresses( SourceDataReader $reader, FoundAddressWriter $output, RejectedAddressWriter $rejected ) {
 		while ( $reader->hasMoreRows() ) {
 			$data = $reader->getRow();
 			$result = $this->validator->validate( $data );
 			if ( $result->isValid() ) {
-				fwrite( $outputStream, $this->formatAsCSV( $this->createOutputRow( $result->getExtractedData() ) ) );
+				 $output->writeRow( $result->getExtractedData() );
 			} else {
-				fwrite( $rejectionStream, $this->formatAsCSV( $this->createRejectionRow( $data, $result->getValidationError() ) ) );
+				 $rejected->writeRow( $data, $result->getValidationError() );
 			}
 		}
-	}
-
-	private function createOutputRow( ExtractedData $data ) {
-		return [
-			$data->getTicketNumber(),
-			$data->getEmail(),
-			$data->getTitle(),
-			$data->getUniqueId()->getType(),
-			$data->getUniqueId()->getId(),
-			$data->getAddress()->getStreet(),
-			$data->getAddress()->getPostcode(),
-			$data->getAddress()->getCity()
-		];
-	}
-
-	private function createRejectionRow( SourceData $data, string $errorMsg ) {
-		return [
-			$data->getTicketNumber(),
-			$data->getEmail(),
-			$data->getTitle(),
-			$errorMsg,
-			$data->getBody()
-		];
-	}
-
-	private function formatAsCSV( array $row ): string {
-		return implode( ';', array_map( function( $v ) {
-			if ( $v ) {
-				return '"'. str_replace( '"', '""', $v ) . '"';
-			} else {
-				return '';
-			}
-		}, $row ) ) . "\n";
 	}
 }

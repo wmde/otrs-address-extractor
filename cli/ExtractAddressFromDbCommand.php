@@ -13,6 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use WMDE\OtrsExtractAddress\DataAccess\CSVSourceDataReader;
 use WMDE\OtrsExtractAddress\DataAccess\DbSourceDataReader;
 use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\ExtractAddressUseCase;
+use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\FoundAddressWriter;
+use WMDE\OtrsExtractAddress\UseCases\ExtractAddress\RejectedAddressWriter;
 
 /**
  * @license GNU GPL v2+
@@ -39,6 +41,7 @@ class ExtractAddressFromDbCommand extends Command {
 			->setHelp( 'You must have the variables DB_DSN, DB_USER and DB_PASSWORD set in the environment or an .env file' )
 			->addOption( 'output', 'o', InputOption::VALUE_REQUIRED, 'Output file' )
 			->addOption( 'rejected', 'r', InputOption::VALUE_REQUIRED, 'Filename for rejected entries' )
+			->addOption( 'link-template', null, InputOption::VALUE_REQUIRED, 'Ticket IDS will be inserted into this template', '%d' )
 			->addOption( 'start-time', null, InputOption::VALUE_REQUIRED, 'Start exporting from this point in time (YYYY-MM-DD HH:MM:SS), time can be omitted', '2017-01-19' )
 			->addOption( 'end-time', null, InputOption::VALUE_REQUIRED, 'End exporting at this point in time (YYYY-MM-DD HH:MM:SS), time can be omitted', 'now' );
 
@@ -49,8 +52,10 @@ class ExtractAddressFromDbCommand extends Command {
 		$startTime = new \DateTime( $input->getOption( 'start-time' )  );
 		$endTime = new \DateTime( $input->getOption( 'end-time' ) );
 
-		$outputStream = $input->getOption( 'output' ) ? fopen( $input->getOption( 'output' ), 'w' ) : STDOUT;
-		$rejectStream = $input->getOption( 'rejected' ) ? fopen( $input->getOption( 'rejected' ), 'w' ) : STDERR;
+		$outputStreamName = $input->getOption( 'output' ) ?? 'php://stdout';
+		$rejectStreamName = $input->getOption( 'rejected' ) ??  'php://stderr';
+		$outputStream = new \SplFileObject( $outputStreamName, 'w' );
+		$rejectStream = new \SplFileObject( $rejectStreamName, 'w' );
 
 		try {
 			$reader = new DbSourceDataReader( $this->getDb(), $startTime, $endTime );
@@ -59,7 +64,11 @@ class ExtractAddressFromDbCommand extends Command {
 			return;
 		}
 
-		$this->addressExtractor->extractAddresses( $reader, $outputStream, $rejectStream );
+		$this->addressExtractor->extractAddresses(
+			$reader,
+			new FoundAddressWriter( $outputStream, $input->getOption( 'link-template') ),
+			new RejectedAddressWriter( $rejectStream )
+		);
 	}
 
 	private function getDb(): \PDO {

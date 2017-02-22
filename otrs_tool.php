@@ -14,7 +14,6 @@ $filter = new AddressFilter( [ new Address( 'Tempelhofer Ufer 23-24', '10963', '
 $extractAddressUseCase = new ExtractAddressUseCase( new SourceDataValidator( $filter ) );
 
 $application = new Application();
-$application->add( new ExtractAddressFromCsvCommand( $extractAddressUseCase ) );
 $application->add( new ExtractAddressFromDbCommand( $extractAddressUseCase ) );
 
 $application->run();

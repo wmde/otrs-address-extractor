@@ -17,6 +17,7 @@ class SucceedingSourceDataValidator implements SourceDataValidatorInterface {
 	public function validate( SourceData $data ): SourceDataValidationResult {
 		return SourceDataValidationResult::newValidResult(
 			new ExtractedData(
+				$data->getTicketId(),
 				$data->getTicketNumber(),
 				$data->getEmail(),
 				$data->getTitle(),

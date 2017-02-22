@@ -9,19 +9,25 @@ use WMDE\OtrsExtractAddress\Domain\UniqueId;
 
 class ExtractedData
 {
+	private $ticketId;
 	private $ticketNumber;
 	private $email;
 	private $title;
 	private $address;
 	private $uniqueId;
 
-	public function __construct( int $ticketNumber, string $email, string $title, Address $address, UniqueId $uniqueId )
+	public function __construct( int $ticketId, int $ticketNumber, string $email, string $title, Address $address, UniqueId $uniqueId )
 	{
+		$this->ticketId = $ticketId;
 		$this->ticketNumber = $ticketNumber;
 		$this->email = $email;
 		$this->title = $title;
 		$this->address = $address;
 		$this->uniqueId = $uniqueId;
+	}
+
+	public function getTicketId(): int {
+		return $this->ticketId;
 	}
 
 	public function getTicketNumber(): int
