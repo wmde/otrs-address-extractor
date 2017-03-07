@@ -44,7 +44,8 @@ class SourceDataValidator implements SourceDataValidatorInterface {
 			$data->getEmail(),
 			$data->getTitle(),
 			$address,
-			array_shift( $uniqueIds )
+			array_shift( $uniqueIds ),
+			$data->getBody()
 		) );
 	}
 }

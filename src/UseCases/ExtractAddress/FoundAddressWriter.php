@@ -30,7 +30,8 @@ class FoundAddressWriter {
 			$data->getAddress()->getStreet(),
 			$data->getAddress()->getPostcode(),
 			$data->getAddress()->getCity(),
-			sprintf( $this->linkTemplate, $data->getTicketId() )
+			sprintf( $this->linkTemplate, $data->getTicketId() ),
+			$data->getBody()
 		] ) );
 	}
 

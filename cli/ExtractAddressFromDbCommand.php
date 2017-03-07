@@ -64,6 +64,7 @@ class ExtractAddressFromDbCommand extends Command {
 			return;
 		}
 
+
 		$this->addressExtractor->extractAddresses(
 			$reader,
 			new FoundAddressWriter( $outputStream, $input->getOption( 'link-template') ),

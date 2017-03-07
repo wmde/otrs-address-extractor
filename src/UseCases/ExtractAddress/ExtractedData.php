@@ -15,8 +15,10 @@ class ExtractedData
 	private $title;
 	private $address;
 	private $uniqueId;
+	private $body;
 
-	public function __construct( int $ticketId, int $ticketNumber, string $email, string $title, Address $address, UniqueId $uniqueId )
+	public function __construct( int $ticketId, int $ticketNumber, string $email, string $title, Address $address,
+								 UniqueId $uniqueId, string $body='' )
 	{
 		$this->ticketId = $ticketId;
 		$this->ticketNumber = $ticketNumber;
@@ -24,6 +26,7 @@ class ExtractedData
 		$this->title = $title;
 		$this->address = $address;
 		$this->uniqueId = $uniqueId;
+		$this->body = $body;
 	}
 
 	public function getTicketId(): int {
@@ -54,4 +57,7 @@ class ExtractedData
 		return $this->uniqueId;
 	}
 
+	public function getBody(): string {
+		return $this->body;
+	}
 }
