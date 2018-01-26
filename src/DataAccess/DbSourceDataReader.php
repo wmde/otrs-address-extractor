@@ -69,6 +69,7 @@ SELECT $columns FROM ticket t JOIN article a ON a.ticket_id = t.id
 WHERE t.create_time BETWEEN :start_time AND :end_time
 AND t.queue_id IN (5,6) 
 AND t.ticket_state_id IN (1,4)
+AND a.a_from NOT LIKE 'Wikimedia%'
 SQL;
 
 	}
