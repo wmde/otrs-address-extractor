@@ -12,8 +12,8 @@ class UniqueIdFinder {
 
 	const MAX_WORD_VICINITY = 4;
 
-	private const MEMBER_MATCH_RX = '/Mitglieds?(:?nr|nummer)/';
-	private const ADDRESS_MATCH_RX = '/Add?res?s(:?nr|nummer)/';
+	private const MEMBER_MATCH_RX = '/Mitglieds?(:?nr|nummer)/i';
+	private const ADDRESS_MATCH_RX = '/Add?res?s(:?nr|nummer)/i';
 
 	public function findIds( string $text ): array {
 		$ids = [];
